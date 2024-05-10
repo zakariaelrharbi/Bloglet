@@ -8,7 +8,12 @@ export default {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+       fontFamily: {
+        Roboto: ['"Roboto"', "sans-serif"],
+        // Add more custom font families as needed
+      },
+    },
   },
   plugins: [
     flowbite.plugin(),

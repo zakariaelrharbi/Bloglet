@@ -6,11 +6,14 @@ import SignIn from './Pages/SignIn'
 import SignUp from './Pages/SignUp'
 import Dashboard from './Pages/Dashboard'
 import Projects from './Pages/Projects'
+import Header from './components/Header'
 
 const App = () => {
   return (
     <div>
       <BrowserRouter>
+      {/* i will add header here so i can have it on all pages */}
+      <Header/>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/about' element={<About/>}/>

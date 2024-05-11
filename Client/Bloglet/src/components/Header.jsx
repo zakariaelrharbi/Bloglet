@@ -11,6 +11,23 @@ export default function Header() {
         <Link to="/" className='px-2 self-center font-Roboto font-bold text-l sm:text-xl dark:text-white'>
           BloGlet
         </Link>
+            <Navbar.Collapse className='flex gap-2'>
+                <Navbar.Link>
+                    <Link to='/'>
+                        Home
+                    </Link>
+                </Navbar.Link>
+                <Navbar.Link>
+                    <Link to='/about'>
+                        About
+                    </Link>
+                </Navbar.Link>
+                <Navbar.Link>
+                    <Link to='/projects'>
+                        Projects
+                    </Link>
+                </Navbar.Link>
+            </Navbar.Collapse>
         <form className='flex items-center'>
           <TextInput
             type='text'
@@ -31,23 +48,6 @@ export default function Header() {
             </Button>
             </Link>
           </div>
-            <Navbar.Collapse className='flex gap-2'>
-                <Navbar.Link>
-                    <Link to='/'>
-                        Home
-                    </Link>
-                </Navbar.Link>
-                <Navbar.Link>
-                    <Link to='/about'>
-                        About
-                    </Link>
-                </Navbar.Link>
-                <Navbar.Link>
-                    <Link to='/projects'>
-                        Projects
-                    </Link>
-                </Navbar.Link>
-            </Navbar.Collapse>
         </form>
     </Navbar>
   )

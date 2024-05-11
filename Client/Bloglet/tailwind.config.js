@@ -1,7 +1,7 @@
 const flowbite = require("flowbite-react/tailwind");
 
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,7 +9,7 @@ export default {
   ],
   theme: {
     extend: {
-       fontFamily: {
+      fontFamily: {
         Roboto: ['"Roboto"', "sans-serif"],
         // Add more custom font families as needed
       },
@@ -18,4 +18,7 @@ export default {
   plugins: [
     flowbite.plugin(),
   ],
-}
+  corePlugins: {
+    preflight: true, // Enable preflight
+  },
+};

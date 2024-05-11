@@ -21,25 +21,29 @@ export default function Header() {
        </Link>
         <Navbar.Toggle className='absolute top-0 right-0'/>
       </div>
-      <Navbar.Collapse >
+      <Navbar.Collapse  >
+
+        <div className='lg:flex gap-8 items-center px-[290px]'>
         <Navbar.Link active={path === "/"}>
           <Link to='/'>Home</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/about"}><Link to='/about'>About</Link></Navbar.Link>
         <Navbar.Link active={path === "/projects"}><Link to='/projects'>Projects</Link></Navbar.Link>
         <Navbar.Link active={path === "/contact"}><Link to='/contact'>Contact</Link></Navbar.Link>        
-      </Navbar.Collapse>
+        </div>
+
+        <div>
       <form>
         <TextInput
           type='text'
           placeholder='Search...'
           rightIcon={AiOutlineSearch}
-          className='hidden lg:inline'
-        />
-        {/* <Button className='w-12 h-10 lg:hidden mr-3' color='gray' pill>
-          <AiOutlineSearch />
-        </Button> */}
+          className='lg:inline'
+          />
         </form>
+        </div>
+        
+      </Navbar.Collapse>
     </Navbar>
   )
 }

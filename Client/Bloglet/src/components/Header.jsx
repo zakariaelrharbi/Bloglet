@@ -17,7 +17,7 @@ export default function Header() {
            <FaMoon/>
         </Button>
         <Link to='/sign-in' className='hidden lg:inline mr-8'>
-          <Button color='purple'>Sign In</Button>
+          <Button color='purple' outline>Sign In</Button>
        </Link>
         <Navbar.Toggle className='absolute top-0 right-0'/>
       </div>

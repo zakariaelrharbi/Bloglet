@@ -7,11 +7,11 @@ import { FaMoon } from 'react-icons/fa';
 
 export default function Header() {
   return (
-    <Navbar className='border-b-2'>
+    <Navbar className='border-b-2 '>
         <Link to="/" className='px-2 self-center font-Roboto font-bold text-l sm:text-xl dark:text-white'>
           BloGlet
         </Link>
-        <form>
+        <form className='flex items-center'>
           <TextInput
             type='text'
             placeholder='Search...'
@@ -30,7 +30,8 @@ export default function Header() {
               Sign In
             </Button>
             </Link>
-            <Navbar.Collapse>
+          </div>
+            <Navbar.Collapse className='flex gap-2'>
                 <Navbar.Link>
                     <Link to='/'>
                         Home
@@ -42,12 +43,11 @@ export default function Header() {
                     </Link>
                 </Navbar.Link>
                 <Navbar.Link>
-                    <Link to='/project'>
-                        Project
+                    <Link to='/projects'>
+                        Projects
                     </Link>
                 </Navbar.Link>
             </Navbar.Collapse>
-          </div>
         </form>
     </Navbar>
   )

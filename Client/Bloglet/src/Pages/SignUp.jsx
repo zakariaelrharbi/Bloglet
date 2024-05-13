@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaUserAlt, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 
 
@@ -166,12 +167,10 @@ export default function SignUp() {
       </div>
       <p className="text-sm mt-6 text-center">
         Already have an account?{" "}
-        <a
-          href="javascript:void(0);"
-          className="text-blue-600 font-semibold hover:underline ml-1"
-        >
-          Login here
-        </a>
+        
+        <Link to='/login' className="text-blue-600 font-semibold hover:underline ml-1">
+            Login here
+          </Link>
       </p>
     </form>
   </div>

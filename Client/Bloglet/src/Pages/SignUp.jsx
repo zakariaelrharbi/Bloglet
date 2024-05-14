@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { FaUserAlt, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Spinner } from 'flowbite-react'; // Assuming 'Spinner' component exists in 'flowbite-react'
+import {userRegister} from '../store/reducers/auth.jsx';
+import { useDispatch } from 'react-redux';
 
 export default function SignUp() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     defaultValues: {
       username: "",
@@ -28,7 +32,16 @@ export default function SignUp() {
     try {
       // Simulate form submission delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log(data); // Handle form submission here
+     console.log('sign-up', data.username, data.email, data.password);
+        dispatch(userRegister(data)).then(action => {
+          if (action.payload.success) {
+            // If successful, navigate to sign-in page
+            navigate('/sign-in');
+          } else {
+            // Handle other cases, e.g., display error message
+            console.error("Registration failed:", action.payload.error);
+          }
+        }); // Handle form submission here
     } catch (error) {
       console.error(error);
     } finally {
@@ -79,7 +92,7 @@ export default function SignUp() {
                         message: "Username is required"
                       }
                     })}
-                    className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500"
+                    className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                     placeholder="Enter username"
                   />
                   <FaUserAlt className="w-4 h-4 absolute right-4 opacity-60" />
@@ -99,7 +112,7 @@ export default function SignUp() {
                         message: 'Please enter a valid email',
                       }
                     })}
-                    className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500"
+                    className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                     placeholder="example@gmail.com"
                   />
                   <MdOutlineMail className="w-5 h-5 absolute right-4 opacity-60" />
@@ -120,7 +133,7 @@ export default function SignUp() {
                       required: "Password is required",
                     })}
                     type={showPassword ? 'text' : 'password'}
-                    className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500"
+                    className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                     placeholder="Enter password"
                   />
                   {showPassword ? (

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom' 
 export default function SignIn() {
   return (
     <>
@@ -102,12 +102,11 @@ export default function SignIn() {
       </div>
       <p className="text-sm mt-10 text-center">
         Don't have an account{" "}
-        <a
-          href="javascript:void(0);"
+        <Link to="/Sign-Up"
           className="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap"
         >
           Register here
-        </a>
+        </Link>
       </p>
     </form>
     <div className="max-md:order-1 flex flex-col justify-center space-y-16 max-md:mt-16 min-h-full bg-gradient-to-r from-gray-900 to-gray-700 lg:px-8 px-4 py-4">

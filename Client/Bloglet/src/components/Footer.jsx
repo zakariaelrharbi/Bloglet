@@ -152,14 +152,13 @@ export default function Footer() {
       </a>
     </div>
     <p className="text-gray-300 text-sm">
-      © 2023
-      <a
-        href="https://readymadeui.com/"
-        target="_blank"
+      © {new Date().getFullYear()}
+      <Link
+        to="/"
         className="hover:underline mx-1"
       >
-        ReadymadeUI
-      </a>
+        BloGlet
+      </Link>
       All Rights Reserved.
     </p>
   </div>

@@ -4,7 +4,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Spinner } from 'flowbite-react'; // Assuming 'Spinner' component exists in 'flowbite-react'
-import {userRegister} from '../store/reducers/auth.jsx';
+import { userRegister } from '../store/reducers/auth'; // Correct import path
 import { useDispatch } from 'react-redux';
 
 export default function SignUp() {
@@ -32,16 +32,16 @@ export default function SignUp() {
     try {
       // Simulate form submission delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-     console.log('sign-up', data.username, data.email, data.password);
-        dispatch(userRegister(data)).then(action => {
-          if (action.payload.success) {
-            // If successful, navigate to sign-in page
-            navigate('/sign-in');
-          } else {
-            // Handle other cases, e.g., display error message
-            console.error("Registration failed:", action.payload.error);
-          }
-        }); // Handle form submission here
+      console.log('sign-up', data.username, data.email, data.password);
+      const action = await dispatch(userRegister(data));
+      
+      if (action.meta.requestStatus === 'fulfilled') {
+        // If successful, navigate to sign-in page
+        navigate('/sign-in');
+      } else {
+        // Handle other cases, e.g., display error message
+        console.error("Registration failed:", action.payload);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -179,10 +179,10 @@ export default function SignUp() {
               >
                 {
                   loading ? (
-                    <>
+                    <div className="flex items-center justify-center">
                       <Spinner size='sm'/>
                       <span className="ml-2">Creating account...</span>
-                    </>
+                    </div>
                   ) : (
                     'Create an account'
                   )
@@ -199,5 +199,5 @@ export default function SignUp() {
         </div>
       </div>
     </>
-  )
+  );
 }

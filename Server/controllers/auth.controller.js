@@ -1,6 +1,7 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const errorHandler = require('../utils/error');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -35,11 +36,13 @@ const signin = async (req, res, next) => {
         }
         const ValidPassword = bcrypt.compareSync(password, ValidUser.password);
         if (!ValidPassword) {
-            next(errorHandler(401, 'Invalid credentials'));
+            return next(errorHandler(401, 'Invalid credentials'));
         }
         res.status(200).json({ message: 'User signed in successfully' });
 
-        
+        const token = jwt.sign({ id: ValidUser._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+        res.status(200).cookie('access_token', token, { httpOnly: true }).json({ ValidUser });
+
     } catch (error) {
         next(error);
     }

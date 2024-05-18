@@ -36,7 +36,7 @@ const signin = async (req, res, next) => {
         }
         const ValidPassword = bcrypt.compareSync(password, ValidUser.password);
         if (!ValidPassword) {
-            return next(errorHandler(401, 'Invalid credentials'));
+            return next(errorHandler(401, 'Invalid Password'));
         }
         res.status(200).json({ message: 'User signed in successfully' });
 

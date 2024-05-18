@@ -22,5 +22,30 @@ const signup = async (req, res, next) => {
     }
 };
 
+const signin = async (req, res, next) => {
+    const { email, password } = req.body;
+    if (!email || !password || email === '' || password === '') {
+        next(errorHandler(400, 'All fields are required'));
+    }
 
-module.exports = { signup };
+    try {
+        const ValidUser = await User.findOne({ email });
+        if (!ValidUser) {
+            next(errorHandler(404, 'User not found'));
+        }
+        const ValidPassword = bcrypt.compareSync(password, ValidUser.password);
+        if (!ValidPassword) {
+            next(errorHandler(401, 'Invalid credentials'));
+        }
+        res.status(200).json({ message: 'User signed in successfully' });
+
+        
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+module.exports = { signup, signin };

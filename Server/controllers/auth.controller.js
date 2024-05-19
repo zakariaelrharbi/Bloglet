@@ -19,6 +19,8 @@ const signup = async (req, res, next) => {
     }
 };
 
+// Signin
+
 const signin = async (req, res, next) => {
     const { email, password } = req.body;
     if (!email || !password || email === '' || password === '') {

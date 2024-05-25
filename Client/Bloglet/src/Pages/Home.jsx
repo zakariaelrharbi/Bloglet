@@ -1,9 +1,12 @@
 import React from 'react'
+import HeroSection from '../components/HeroSection'
+import OurBlog from '../components/OurBlog'
 
 export default function Home() {
   return (
     <div>
-      <h1>home</h1>
+      <HeroSection />
+      <OurBlog />
     </div>
   )
 }

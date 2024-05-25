@@ -28,14 +28,14 @@ export default function SignIn() {
       <div className="font-[sans-serif] text-gray-800 bg-white max-w-4xl flex items-center mx-auto md:h-screen p-4">
   <div className="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
     <form className="md:col-span-2 w-full py-6 px-6 sm:px-16">
-      <div className="mb-16">
+      <div className="mb-8">
         <h3 className="text-4xl font-extrabold">Sign In</h3>
         <p className="text-sm mt-6">
           Welcome back! Please log in to access your account and explore a world
           of possibilities. Your journey begins here.
         </p>
       </div>
-      <div>
+      <div className='mb-4'>
                 <label className="text-sm mb-2 block">Email</label>
                 <div className="relative flex items-center">
                   <input

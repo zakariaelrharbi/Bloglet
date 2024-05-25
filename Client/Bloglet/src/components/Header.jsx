@@ -19,7 +19,7 @@ return (
     `fixed bg-gray-800/40 inset-0 z-30 ${navIsOpened ? "lg:hidden" : "hidden lg:hidden"}`
   } />
   <header className="sticky top-0 w-full flex items-center h-20 border-b border-b-gray-600 dark:border-b-gray-900 z-40 bg-white/80 dark:bg-gray-950/80 backdrop-filter backdrop-blur-xl">
-    <nav className="relative mx-auto lg:max-w-7xl w-full px-5 sm:px-10 md:px-12 lg:px-5 flex gap-x-5 justify-between items-center">
+    <nav className="relative mx-auto lg:max-w-9xl w-full px-5 sm:px-10 md:px-12 lg:px-5 flex gap-x-5 justify-between items-center">
       <div className="flex items-center min-w-max">
        <Link to="/" className='lg:px-8 mr-14 font-Roboto font-bold text-2xl lg:text-2xl dark:text-white'>
          BloGlet 
@@ -52,7 +52,7 @@ return (
           </li>
         </ul>
           <div className='lg:flex lg:gap-4 lg:items-center'>
-             <form className='flex items-center'>
+             <form className='flex items-center '>
                <TextInput
                  type='text'
                  placeholder='Search...'

@@ -1,10 +1,14 @@
-const User = require('../models/user.model');
+const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const errorHandler = require('../utils/error');
 const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+        return next(errorHandler(409, 'User already exists'));
+    }
     if (!username || !email || !password || username === '' || email === '' || password === '') {
         return next(errorHandler(400, 'All fields are required'));    
     }

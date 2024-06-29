@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Home from './Pages/Home'
 import About from './Pages/About'
 import SignIn from './Pages/SignIn'
@@ -11,24 +11,31 @@ import Contact from './Pages/Contact'
 import Footer from './components/Footer'
 
 const App = () => {
+  const location = useLocation();
+  
+  const showHeaderFooter = !['/sign-in', '/sign-up'].includes(location.pathname.toLowerCase());
+
   return (
     <div>
-      <BrowserRouter>
-      {/* i will add header here so i can have it on all pages */}
-      <Header/>
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/about' element={<About/>}/>
-          <Route path='/Sign-in' element={<SignIn/>}/>
-          <Route path='/Sign-Up' element={<SignUp/>}/>
-          <Route path='/dashboard' element={<Dashboard/>}/>
-          <Route path='/projects' element={<Projects/>}/>
-          <Route path='/contact' element={<Contact/>}/>
-        </Routes>
-        <Footer/>
-      </BrowserRouter>
+      {showHeaderFooter && <Header />}
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/sign-in' element={<SignIn />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/projects' element={<Projects />} />
+        <Route path='/contact' element={<Contact />} />
+      </Routes>
+      {showHeaderFooter && <Footer />}
     </div>
   )
 }
 
-export default App
+const AppWrapper = () => (
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+
+export default AppWrapper;

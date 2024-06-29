@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 
 
-const PORT = process.env.SERVER_PORT || 5000;
+const PORT = process.env.SERVER_PORT || 8000;
 
 async function main() {
     await connect();

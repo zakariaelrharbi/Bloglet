@@ -74,9 +74,6 @@ export default function SignUp() {
             </div>
           </div>
           <form className="md:col-span-2 w-full py-6 px-6 sm:px-16" onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold">Create an account</h3>
-            </div>
             <div className="space-y-5">
               <div>
                 <label className="text-sm mb-2 block">Username</label>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
-import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
@@ -10,57 +9,85 @@ import { useDispatch } from 'react-redux';
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
-    defaultValues: {
-      email: "",
-      password: ""
-    },
-    mode: "onChange",
+  const [data, setData] = useState({
+    email: "",
+    password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (data) => {
-    setLoading(true);
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value.trim(),
+    }));
+
+    // Clear specific error when input changes
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  const validate = () => {
+    const errors = {};
+    if (!data.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
+      errors.email = "Email address is invalid";
+    }
+    if (!data.password) {
+      errors.password = "Password is required";
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
 
     try {
-      dispatch(signInStart());
       const response = await fetch('http://localhost:5000/api/signin', {
-        method: SummaryApi.Login.method,
-        credentials: 'include',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+        credentials: 'include',
       });
+      const dataRes = await response.json();
 
-      const result = await response.json();
-
-      if (result.success) {
-        dispatch(signInSuccess(result));
-        toast.success(result.message);
+      if (dataRes.success) {
+        toast.success(dataRes.message);
         setTimeout(() => {
           navigate('/');
         }, 1500);
       } else {
-        dispatch(signInFailure(result.message));
-        toast.error(result.message);
+        toast.error(dataRes.message);
+        if (dataRes.field) {
+          setErrors({ [dataRes.field]: dataRes.message });
+        }
       }
     } catch (error) {
-      dispatch(signInFailure(error.message));
       toast.error(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <div className="font-[sans-serif] text-gray-800 bg-white max-w-4xl flex items-center mx-auto md:h-screen p-4">
       <div className="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
-        <form className="md:col-span-2 w-full py-6 px-6 sm:px-16" onSubmit={handleSubmit(onSubmit)}>
+        <form className="md:col-span-2 w-full py-6 px-6 sm:px-16" onSubmit={handleSubmit}>
           <div className="mb-8">
             <h3 className="text-4xl font-extrabold">Sign In</h3>
             <p className="text-sm mt-6">
@@ -71,17 +98,24 @@ export default function SignIn() {
             <label className="text-sm mb-2 block">Email</label>
             <div className="relative flex items-center">
               <input
+                name="email"
+                value={data.email}
+                onChange={handleOnChange}
                 className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                 placeholder="example@gmail.com"
               />
               <MdOutlineMail className="w-5 h-5 absolute right-4 top-2.5 opacity-60 " />
             </div>
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
           <div>
             <label className="text-sm mb-2 block">Password</label>
             <div className="relative flex items-center">
               <input
+                name="password"
+                value={data.password}
                 type={showPassword ? 'text' : 'password'}
+                onChange={handleOnChange}
                 className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                 placeholder="Enter password"
               />
@@ -97,6 +131,7 @@ export default function SignIn() {
                 />
               )}
             </div>
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
           </div>
           <div className="flex items-center justify-between gap-2 mt-4">
             <div className="flex items-center">

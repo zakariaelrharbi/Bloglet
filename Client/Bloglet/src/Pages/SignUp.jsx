@@ -45,6 +45,10 @@ export default function SignUp() {
     } 
     if (!data.password) {
       errors.password = "Password is required";
+    } else if (data.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    } else if (!/[A-Z]/.test(data.password)) {
+      errors.password = "Password must contain at least one uppercase [A-Z] letter";
     }
 
     return errors;

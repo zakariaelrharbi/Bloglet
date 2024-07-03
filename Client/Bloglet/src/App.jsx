@@ -9,6 +9,8 @@ import Projects from './Pages/Projects'
 import Header from './components/Header'
 import Contact from './Pages/Contact'
 import Footer from './components/Footer'
+import { Toaster } from 'sonner'; // Ensure you're using 'sonner' consistently
+
 
 const App = () => {
   const location = useLocation();
@@ -17,6 +19,7 @@ const App = () => {
 
   return (
     <div>
+      <Toaster richColors position="top-center" />
       {showHeaderFooter && <Header />}
       <Routes>
         <Route path='/' element={<Home />} />

@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from "react-icons/ai";
-import DropDown from './DropDown';
-import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { isLoading, isAuth } = useSelector((state) => state.auth);
   const [navIsOpened, setNavIsOpened] = useState(false);
 
   const closeNavbar = () => {
@@ -68,17 +65,11 @@ const Header = () => {
                 />
               </form>
             </div>
-            {!isAuth && !isLoading ? (
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
-                <Link to="/sign-in" className="relative flex justify-center px-6 py-3 before:absolute before:inset-0 before:rounded-lg before:transition before:bg-gray-100 dark:before:bg-gray-900 text-black dark:text-white hover:before:scale-105">
-                  <span className="relative">Sign In</span>
-                </Link>
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <DropDown />
-              </div>
-            )}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
+              <Link to="/sign-in" className="relative flex justify-center px-6 py-3 before:absolute before:inset-0 before:rounded-lg before:transition before:bg-gray-100 dark:before:bg-gray-900 text-black dark:text-white hover:before:scale-105">
+                <span className="relative">Sign In</span>
+              </Link>
+            </div>
           </div>
           <div className="flex items-center lg:hidden">
             <button

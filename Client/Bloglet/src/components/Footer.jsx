@@ -16,7 +16,7 @@ export default function Footer() {
       <ul className="space-y-4">
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Newsroom
@@ -24,7 +24,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Tailwind CSS
@@ -32,7 +32,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Careers
@@ -45,7 +45,7 @@ export default function Footer() {
       <ul className="space-y-4">
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Github
@@ -53,7 +53,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             linkedin
@@ -61,7 +61,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Twitter
@@ -74,7 +74,7 @@ export default function Footer() {
       <ul className="space-y-4">
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             About
@@ -82,7 +82,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Privacy Policy
@@ -90,7 +90,7 @@ export default function Footer() {
         </li>
         <li>
           <a
-            href="javascript:void(0)"
+            href="#"
             className="text-gray-300 hover:text-white text-sm transition-all"
           >
             Terms &amp; Conditions
@@ -103,7 +103,7 @@ export default function Footer() {
   <div className="flex sm:justify-between flex-wrap gap-6">
     <div className="flex space-x-5">
       <a
-        href="javascript:void(0)"
+        href="#"
         className="text-gray-300 hover:text-white text-sm transition-all"
       >
         <svg
@@ -119,7 +119,7 @@ export default function Footer() {
         </svg>
       </a>
       <a
-        href="javascript:void(0)"
+        href="#"
         className="text-gray-300 hover:text-white text-sm transition-all"
       >
         <svg
@@ -134,7 +134,7 @@ export default function Footer() {
         </svg>
       </a>
       <a
-        href="javascript:void(0)"
+        href="#"
         className="text-gray-300 hover:text-white text-sm transition-all"
       >
         <svg

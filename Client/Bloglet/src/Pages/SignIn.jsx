@@ -19,7 +19,6 @@ export default function SignIn() {
     mode: "onChange",
   });
 
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -73,33 +72,16 @@ export default function SignIn() {
             <label className="text-sm mb-2 block">Email</label>
             <div className="relative flex items-center">
               <input
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Please enter a valid email',
-                  }
-                })}
                 className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                 placeholder="example@gmail.com"
               />
               <MdOutlineMail className="w-5 h-5 absolute right-4 top-2.5 opacity-60 " />
             </div>
-            {errors.email && (
-              <p className="text-red-500 text-xs mb-4 block">{errors.email.message}</p>
-            )}
           </div>
           <div>
             <label className="text-sm mb-2 block">Password</label>
             <div className="relative flex items-center">
               <input
-                {...register("password", {
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
-                  },
-                  required: "Password is required",
-                })}
                 type={showPassword ? 'text' : 'password'}
                 className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
                 placeholder="Enter password"
@@ -116,9 +98,6 @@ export default function SignIn() {
                 />
               )}
             </div>
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1 block">{errors.password.message}</p>
-            )}
           </div>
           <div className="flex items-center justify-between gap-2 mt-4">
             <div className="flex items-center">
@@ -144,17 +123,9 @@ export default function SignIn() {
           <div className="mt-10">
             <button
               type="submit"
-              disabled={!isValid || loading}
               className="w-full py-3 px-4 text-sm font-semibold rounded text-white bg-gray-700 hover:bg-gray-800 focus:outline-none cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <Spinner size='sm'/>
-                  <span className="ml-2">Logging in...</span>
-                </div>
-              ) : (
-                'Sign in'
-              )}
+              Sign in
             </button>
           </div>
           <p className="text-sm mt-10 text-center">

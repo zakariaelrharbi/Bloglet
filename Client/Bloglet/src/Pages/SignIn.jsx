@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
-import { Spinner } from 'flowbite-react';
 import { useDispatch } from 'react-redux';
 
 export default function SignIn() {

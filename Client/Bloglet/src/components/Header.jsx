@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from "react-icons/ai";
+import { useSelector, useDispatch } from 'react-redux'; // Import useSelector hook from react-redux to access the Redux store
+import { Avatar, Dropdown } from "flowbite-react"; // Import Avatar and Dropdown components from flowbite-react
+import { signOutSuccess } from '../redux/user/userSlice'; // Import signOutSuccess action from userSlice
+import { toast } from 'sonner'; // Import the toast function from sonner for displaying notifications
 
 const Header = () => {
   const [navIsOpened, setNavIsOpened] = useState(false);
+  // Access the dispatch function from the Redux store
+  const dispatch = useDispatch();
+  // Access the navigate function from react-router-dom for programmatic navigation 
+  const navigate = useNavigate(); 
 
   const closeNavbar = () => {
     setNavIsOpened(false);
@@ -12,6 +20,29 @@ const Header = () => {
 
   const toggleNavbar = () => {
     setNavIsOpened((prev) => !prev);
+  };
+  // Access the currentUser from the Redux store
+  const { currentUser } = useSelector((state) => state.user); 
+  // Access the nested user object if it exists
+  const user = currentUser?.user; 
+
+  // handle signout
+  const handleSignout = async () => {
+    // signout user
+    try {
+      const res = await fetch('http://localhost:5000/api/signout', {
+        method: 'POST',
+      });
+      const dataRes = await res.json();
+      if (!res.ok) {
+        toast.error(dataRes.message);
+      } else {
+        toast.success(dataRes.message);
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again');
+    }
   };
 
   return (

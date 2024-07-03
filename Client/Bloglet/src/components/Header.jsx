@@ -97,9 +97,11 @@ const Header = () => {
               </form>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
+              {!user && (
               <Link to="/sign-in" className="relative flex justify-center px-6 py-3 before:absolute before:inset-0 before:rounded-lg before:transition before:bg-gray-100 dark:before:bg-gray-900 text-black dark:text-white hover:before:scale-105">
                 <span className="relative">Sign In</span>
-              </Link>
+              </Link>  
+              )}
             </div>
           </div>
           <div className="flex items-center lg:hidden">

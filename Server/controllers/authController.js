@@ -7,22 +7,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-// Sign Up function
 const userSignup = async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password || username === '' || email === '' || password === '') {
         return res.status(400).json({
             message: 'All fields are required',
-            error: true,
-            success: false,
-        });
-    }
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        return res.status(400).json({ 
-            message: 'User already exists',
             error: true,
             success: false,
         });
@@ -42,6 +32,24 @@ const userSignup = async (req, res) => {
             success: true,
         });
     } catch (error) {
+        if (error.code === 11000) {
+            // Duplicate key error
+            if (error.keyPattern && error.keyPattern.username) {
+                return res.status(400).json({
+                    message: 'Username already exists',
+                    error: true,
+                    success: false,
+                    field: 'username'
+                });
+            } else if (error.keyPattern && error.keyPattern.email) {
+                return res.status(400).json({
+                    message: 'Email already exists',
+                    error: true,
+                    success: false,
+                    field: 'email'
+                });
+            }
+        }
         return res.status(500).json({
             message: error.message,
             error: true,
@@ -49,6 +57,7 @@ const userSignup = async (req, res) => {
         });
     }
 };
+
 
 // Sign In function
 const userSignin = async (req, res) => {

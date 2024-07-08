@@ -20,8 +20,8 @@ const Header = () => {
     setNavIsOpened((prev) => !prev);
   };
 
-  const { currentUser } = useSelector((state) => state.user);
-  const user = currentUser?.user;
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const user = currentUser;
 
   const handleSignout = async () => {
     try {

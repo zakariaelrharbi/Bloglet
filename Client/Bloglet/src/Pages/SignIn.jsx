@@ -70,8 +70,8 @@ export default function SignIn() {
       const dataRes = await response.json();
 
       if (dataRes.success) {
-        dispatch(signInSuccess(dataRes.user));
         toast.success(dataRes.message);
+        dispatch(signInSuccess(dataRes.user));
         setTimeout(() => {
           navigate('/');
         }, 1500);

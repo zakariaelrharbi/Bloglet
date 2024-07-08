@@ -58,6 +58,7 @@ export default function SignIn() {
     setErrors({});
 
     try {
+      dispatch(signInStart());
       const response = await fetch('http://localhost:5000/api/signin', {
         method: 'POST',
         headers: {
@@ -69,17 +70,20 @@ export default function SignIn() {
       const dataRes = await response.json();
 
       if (dataRes.success) {
+        dispatch(signInSuccess(dataRes.user));
         toast.success(dataRes.message);
         setTimeout(() => {
           navigate('/');
         }, 1500);
       } else {
+        dispatch(signInFailure(dataRes.message));
         toast.error(dataRes.message);
         if (dataRes.field) {
           setErrors({ [dataRes.field]: dataRes.message });
         }
       }
     } catch (error) {
+      dispatch(signInFailure(error.message));
       toast.error(error.message);
     }
   };

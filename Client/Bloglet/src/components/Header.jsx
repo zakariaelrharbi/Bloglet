@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Dropdown } from "flowbite-react";
 import { signOutSuccess } from '../redux/user/userSlice';
 import { toast } from 'sonner';
+import DarkModeButton from './DarkModeButton';
 
 const Header = () => {
   const [navIsOpened, setNavIsOpened] = useState(false);
@@ -91,6 +92,7 @@ const Header = () => {
                 />
               </form>
             </div>
+            <DarkModeButton />
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
               <div className="hidden lg:flex lg:items-center">

@@ -182,7 +182,7 @@ export default function SignUp() {
             >
               {
                 loading ? (
-                  <Spinner size="sm"/>
+                  <Spinner size="sm" />
                 ) : 'Create an account'
               }
             </button>

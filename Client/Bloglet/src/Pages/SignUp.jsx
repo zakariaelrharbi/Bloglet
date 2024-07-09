@@ -8,6 +8,8 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     username: "",
     email: "",

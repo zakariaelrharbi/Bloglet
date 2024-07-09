@@ -92,7 +92,7 @@ const Header = () => {
                 />
               </form>
             </div>
-            <DarkModeButton />
+            <DarkModeButton/>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
               <div className="hidden lg:flex lg:items-center">

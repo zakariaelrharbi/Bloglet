@@ -1,3 +1,4 @@
+import { Spinner } from 'flowbite-react';
 import React, { useState } from 'react';
 import { FaUserAlt, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
@@ -87,8 +88,10 @@ export default function SignUp() {
           setErrors({ [dataRes.field]: dataRes.message });
         }
       }
+      setLoading(false);
     } catch (error) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
 
@@ -174,9 +177,14 @@ export default function SignUp() {
           <div className="!mt-10">
             <button
               type="submit"
+              disabled={loading}
               className="w-full py-3 px-4 text-sm font-semibold rounded text-white bg-gray-700 hover:bg-gray-800 focus:outline-none cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Create an account
+              {
+                loading ? (
+                  <Spinner size="sm"/>
+                ) : 'Create an account'
+              }
             </button>
           </div>
           <p className="text-sm mt-6 text-center">

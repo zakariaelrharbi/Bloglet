@@ -7,6 +7,7 @@ import { Avatar, Dropdown } from "flowbite-react";
 import { signOutSuccess } from '../redux/user/userSlice';
 import { toast } from 'sonner';
 import DarkModeButton from './DarkModeButton';
+import { toggleTheme } from '../redux/theme/themeSlice';
 
 const Header = () => {
   const [navIsOpened, setNavIsOpened] = useState(false);
@@ -92,7 +93,9 @@ const Header = () => {
                 />
               </form>
             </div>
-            <DarkModeButton/>
+            <button onClick={()=>{dispatch(toggleTheme())}}>
+              <DarkModeButton />
+            </button>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
               <div className="hidden lg:flex lg:items-center">

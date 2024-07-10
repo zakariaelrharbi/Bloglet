@@ -3,7 +3,7 @@ import React from 'react'
 const DashSideBar = () => {
   return (
     <div>
-        <nav className="bg-[#f7f7f8] h-screen absolute top-0 left-0 min-w-[250px] py-6 xl:py-[100px]  px-4 font-[sans-serif]">
+        <nav className="bg-[#f7f7f8] h-screen absolute top-0 left-0 min-w-[250px] py-6 xl:py-[110px]  px-4 font-[sans-serif]">
   <div className="relative">
     <a href="javascript:void(0)">
       <img

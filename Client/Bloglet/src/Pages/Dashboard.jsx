@@ -14,9 +14,9 @@ export default function Dashboard() {
     }
   }, [location])
   return (
-    <div>
+    <div className='flex flex-col md:flex-row pt-10'>
       {/* Side bar */}
-      <div>
+      <div className='md:w-64'>
         <DashSideBar />
       </div>
       {/* Profile */}

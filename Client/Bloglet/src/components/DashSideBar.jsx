@@ -8,9 +8,7 @@ import { LuUsers } from "react-icons/lu";
 import { VscDiffAdded } from "react-icons/vsc";
 import { MdAccessTime } from "react-icons/md";
 import { PiSignOutFill } from "react-icons/pi";
-
-
-
+import { toast } from 'react-toastify';
 
 const DashSideBar = () => {
   const dispatch = useDispatch();
@@ -27,7 +25,7 @@ const DashSideBar = () => {
       } else {
         toast.success(dataRes.message);
         dispatch(signOutSuccess());
-        navigate('/');
+        navigate('/sign-in');
       }
     } catch (error) {
       toast.error('An error occurred. Please try again');
@@ -36,7 +34,7 @@ const DashSideBar = () => {
 
   return (
     <div>
-        <nav className="bg-[#f7f7f8] min-h-screen absolute top-0 left-0 min-w-[250px] py-6 xl:py-[110px]  px-4 font-[sans-serif]">
+        <nav className="bg-[#f7f7f8] h-screen absolute top-0 left-0 min-w-[250px] py-6 xl:py-[110px]  px-4 font-[sans-serif]">
         <div className="overflow-auto h-full">
           <ul className="space-y-1">
           <li>

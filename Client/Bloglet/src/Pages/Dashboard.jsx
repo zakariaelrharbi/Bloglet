@@ -14,7 +14,7 @@ export default function Dashboard() {
     }
   }, [location.search])
   return (
-    <div className='flex flex-col md:flex-row pt-10'>
+    <div className='flex flex-col md:flex-row'>
       {/* Side bar */}
       <div className=''>
         <DashSideBar />

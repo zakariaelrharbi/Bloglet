@@ -12,11 +12,11 @@ export default function Dashboard() {
     if (tabFromUrl) {
       setTab(tabFromUrl)
     }
-  }, [location])
+  }, [location.search])
   return (
     <div className='flex flex-col md:flex-row pt-10'>
       {/* Side bar */}
-      <div className='md:w-64'>
+      <div className=''>
         <DashSideBar />
       </div>
       {/* Profile */}

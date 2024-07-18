@@ -9,7 +9,7 @@ const DashSideBar = () => {
   return (
     <Sidebar>
       <Sidebar.Items>
-        <Sidebar.ItemGroup>
+        <Sidebar.ItemGroup className='cursor-pointer'>
           <Sidebar.Item active icon={SlUser} label={"User"} labelColor ='dark'>
             Profile
           </Sidebar.Item>

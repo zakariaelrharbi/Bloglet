@@ -13,6 +13,8 @@ const DashProfile = () => {
           className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />
         </div>
         <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username}/>
+        <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email}/>
+        <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username}/>
       </form>
     </div>
   )

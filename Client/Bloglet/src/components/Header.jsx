@@ -14,7 +14,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const toggleNavbar = () => {
     setNavIsOpened((prev) => !prev);
   };
@@ -93,41 +92,6 @@ const Header = () => {
             <button onClick={()=>{dispatch(toggleTheme())}}>
               <DarkModeButton />
             </button>
-
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
-              <div className="hidden lg:flex lg:items-center">
-                {!user ? (
-                  <Link
-                    to={'/sign-in'}
-                    className="relative px-3 py-2.5 rounded-md font-semibold text-black duration-300 ease-linear after:absolute after:w-full after:left-0 after:bottom-0 after:h-px after:rounded-md after:origin-left after:ease-linear after:duration-300 after:scale-0 hover:after:scale-100 bg-transparent border border-primaryGreen hover:bg-primaryGreen hover:text-black"
-                  >
-                    Sign In
-                  </Link>
-                ) : (
-                  <Dropdown
-                    arrowIcon={false}
-                    inline
-                    label={
-                      <Avatar alt="user" img={user.profilePicture} rounded />
-                    }
-                  >
-                    <Dropdown.Header>
-                      <span className="block text-sm">@{user.username}</span>
-                      <span className="block text-xs font-medium truncate">
-                        {user.email}
-                      </span>
-                    </Dropdown.Header>
-                    <Link to="/dashboard?tab=profile" className="block text-sm">
-                      <Dropdown.Item>Profile</Dropdown.Item>
-                    </Link>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleSignout}>
-                      Sign out
-                    </Dropdown.Item>
-                  </Dropdown>
-                )}
-              </div>
-            </div>
           </div>
           <div className="flex items-center lg:hidden">
             <button
@@ -150,7 +114,7 @@ const Header = () => {
             </button>
           </div>
           {user && (
-            <div className="hidden lg:flex items-center">
+            <div className="flex items-center">
               <Dropdown
                 arrowIcon={false}
                 inline
@@ -172,6 +136,16 @@ const Header = () => {
                   Sign out
                 </Dropdown.Item>
               </Dropdown>
+            </div>
+          )}
+          {!user && (
+            <div className="hidden lg:flex lg:items-center">
+              <Link
+                to={'/sign-in'}
+                className="relative px-3 py-2.5 rounded-md font-semibold text-black duration-300 ease-linear after:absolute after:w-full after:left-0 after:bottom-0 after:h-px after:rounded-md after:origin-left after:ease-linear after:duration-300 after:scale-0 hover:after:scale-100 bg-transparent border border-primaryGreen hover:bg-primaryGreen hover:text-black"
+              >
+                Sign In
+              </Link>
             </div>
           )}
         </nav>

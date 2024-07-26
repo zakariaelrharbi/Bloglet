@@ -21,7 +21,7 @@ const DashProfile = () => {
       <form className='flex flex-col gap-4'>
         <input type='file' accept='image/*' onChange={handleImageUpload} className='' />
         <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'>
-          <img src={currentUser.profilePicture} alt="user" 
+          <img src={imageFileUrl || currentUser.profilePicture} alt="user" 
           className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />
         </div>
         <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username}/>

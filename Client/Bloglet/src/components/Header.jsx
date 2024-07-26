@@ -2,33 +2,26 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from "react-icons/ai";
-import { useSelector, useDispatch } from 'react-redux'; // Import useSelector hook from react-redux to access the Redux store
-import { Avatar, Dropdown } from "flowbite-react"; // Import Avatar and Dropdown components from flowbite-react
-import { signOutSuccess } from '../redux/user/userSlice'; // Import signOutSuccess action from userSlice
-import { toast } from 'sonner'; // Import the toast function from sonner for displaying notifications
+import { useSelector, useDispatch } from 'react-redux';
+import { Avatar, Dropdown } from "flowbite-react";
+import { signOutSuccess } from '../redux/user/userSlice';
+import { toast } from 'sonner';
 
 const Header = () => {
   const [navIsOpened, setNavIsOpened] = useState(false);
-  // Access the dispatch function from the Redux store
   const dispatch = useDispatch();
-  // Access the navigate function from react-router-dom for programmatic navigation 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const closeNavbar = () => {
-    setNavIsOpened(false);
-  };
 
   const toggleNavbar = () => {
     setNavIsOpened((prev) => !prev);
   };
-  // Access the currentUser from the Redux store
-  const { currentUser } = useSelector((state) => state.user); 
-  // Access the nested user object if it exists
-  const user = currentUser?.user; 
 
-  // handle signout
+  const { currentUser } = useSelector((state) => state.user);
+  const user = currentUser?.user;
+  console.log(user);
+
   const handleSignout = async () => {
-    // signout user
     try {
       const res = await fetch('http://localhost:5000/api/signout', {
         method: 'POST',
@@ -49,13 +42,13 @@ const Header = () => {
     <>
       <div
         aria-hidden="true"
-        onClick={closeNavbar}
+        onClick={() => setNavIsOpened(false)}
         className={`fixed bg-gray-800/40 inset-0 z-30 ${navIsOpened ? "lg:hidden" : "hidden lg:hidden"}`}
       />
       <header className="sticky top-0 w-full flex items-center h-20 border-b border-b-gray-600 dark:border-b-gray-900 z-40 bg-white/80 dark:bg-gray-950/80 backdrop-filter backdrop-blur-xl">
         <nav className="relative mx-auto lg:max-w-9xl w-full px-5 sm:px-10 md:px-12 lg:px-5 flex gap-x-5 justify-between items-center">
           <div className="flex items-center min-w-max">
-            <Link to="/" className='lg:px-8 mr-14 font-Roboto font-bold text-2xl lg:text-2xl dark:text-white'>
+            <Link to="/" className="lg:px-8 mr-14 font-Roboto font-bold text-2xl lg:text-2xl dark:text-white">
               BloGlet
             </Link>
           </div>
@@ -98,9 +91,9 @@ const Header = () => {
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
               {!user && (
-              <Link to="/sign-in" className="relative flex justify-center px-6 py-3 before:absolute before:inset-0 before:rounded-lg before:transition before:bg-gray-100 dark:before:bg-gray-900 text-black dark:text-white hover:before:scale-105">
-                <span className="relative">Sign In</span>
-              </Link>  
+                <Link to="/sign-in" className="relative flex justify-center px-6 py-3 before:absolute before:inset-0 before:rounded-lg before:transition before:bg-gray-100 dark:before:bg-gray-900 text-black dark:text-white hover:before:scale-105">
+                  <span className="relative">Sign In</span>
+                </Link>
               )}
             </div>
           </div>
@@ -124,6 +117,31 @@ const Header = () => {
               />
             </button>
           </div>
+          {user && (
+            <div className="hidden lg:flex items-center">
+              <Dropdown
+                arrowIcon={false}
+                inline
+                label={
+                  <Avatar alt="user" img={user.profilePicture} rounded />
+                }
+              >
+                <Dropdown.Header>
+                  <span className="block text-sm">@{user.username}</span>
+                  <span className="block text-xs font-medium truncate">
+                    {user.email}
+                  </span>
+                </Dropdown.Header>
+                <Link to="/dashboard?tab=profile" className="block text-sm">
+                  <Dropdown.Item>Profile</Dropdown.Item>
+                </Link>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={handleSignout}>
+                  Sign out
+                </Dropdown.Item>
+              </Dropdown>
+            </div>
+          )}
         </nav>
       </header>
     </>

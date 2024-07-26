@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Dropdown } from "flowbite-react";
 import { signOutSuccess } from '../redux/user/userSlice';
 import { toast } from 'sonner';
+import DarkModeButton from './DarkModeButton';
+import { toggleTheme } from '../redux/theme/themeSlice';
 
 const Header = () => {
   const [navIsOpened, setNavIsOpened] = useState(false);
@@ -17,9 +19,8 @@ const Header = () => {
     setNavIsOpened((prev) => !prev);
   };
 
-  const { currentUser } = useSelector((state) => state.user);
-  const user = currentUser?.user;
-  console.log(user);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const user = currentUser;
 
   const handleSignout = async () => {
     try {
@@ -89,12 +90,43 @@ const Header = () => {
                 />
               </form>
             </div>
+            <button onClick={()=>{dispatch(toggleTheme())}}>
+              <DarkModeButton />
+            </button>
+
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
-              {!user && (
-                <Link to="/sign-in" className="relative flex justify-center px-6 py-3 before:absolute before:inset-0 before:rounded-lg before:transition before:bg-gray-100 dark:before:bg-gray-900 text-black dark:text-white hover:before:scale-105">
-                  <span className="relative">Sign In</span>
-                </Link>
-              )}
+              <div className="hidden lg:flex lg:items-center">
+                {!user ? (
+                  <Link
+                    to={'/sign-in'}
+                    className="relative px-3 py-2.5 rounded-md font-semibold text-black duration-300 ease-linear after:absolute after:w-full after:left-0 after:bottom-0 after:h-px after:rounded-md after:origin-left after:ease-linear after:duration-300 after:scale-0 hover:after:scale-100 bg-transparent border border-primaryGreen hover:bg-primaryGreen hover:text-black"
+                  >
+                    Sign In
+                  </Link>
+                ) : (
+                  <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                      <Avatar alt="user" img={user.profilePicture} rounded />
+                    }
+                  >
+                    <Dropdown.Header>
+                      <span className="block text-sm">@{user.username}</span>
+                      <span className="block text-xs font-medium truncate">
+                        {user.email}
+                      </span>
+                    </Dropdown.Header>
+                    <Link to="/dashboard?tab=profile" className="block text-sm">
+                      <Dropdown.Item>Profile</Dropdown.Item>
+                    </Link>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={handleSignout}>
+                      Sign out
+                    </Dropdown.Item>
+                  </Dropdown>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex items-center lg:hidden">

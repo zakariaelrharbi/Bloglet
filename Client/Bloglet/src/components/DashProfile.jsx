@@ -17,7 +17,6 @@ const DashProfile = () => {
 
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null)
   const [imageFileUploadingError, setImageFileUploadingError] = useState(null)
-  console.log(imageFileUploadingProgress, imageFileUploadingError)
   
   // Ref for accessing the file input element directly
   const filePickerref = useRef(null)

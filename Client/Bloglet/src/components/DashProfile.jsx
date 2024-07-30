@@ -1,6 +1,7 @@
 import { Button, TextInput } from 'flowbite-react' // Importing components from Flowbite for UI elements
 import React, { useEffect, useRef, useState } from 'react' // Importing React and hooks from React
 import { useSelector } from 'react-redux' // Importing useSelector to access Redux store state
+import { getStorage } from 'firebase/storage' // Importing Firebase storage functions
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
@@ -35,7 +36,8 @@ const DashProfile = () => {
   // Function to upload the new image to the server
   const newImageUpload = async () => {
     // Code to upload the image to the server
-    
+    const storage = getStorage(app) // Getting the Firebase storage instance
+    const fileName = new Date().getTime() + uploadImage.name; // Generating a unique file name
   }
 
   return (

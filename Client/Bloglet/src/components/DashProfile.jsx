@@ -1,5 +1,5 @@
 import { Button, TextInput } from 'flowbite-react' // Importing components from Flowbite for UI elements
-import React, { useRef, useState } from 'react' // Importing React and hooks from React
+import React, { useEffect, useRef, useState } from 'react' // Importing React and hooks from React
 import { useSelector } from 'react-redux' // Importing useSelector to access Redux store state
 
 const DashProfile = () => {
@@ -21,6 +21,21 @@ const DashProfile = () => {
       setUploadImage(file) // Setting the selected file in state
       setImageFileUrl(URL.createObjectURL(file)) // Creating a URL for the selected file to display a preview
     }
+  }
+
+  // useEffect to handle new image upload
+  useEffect(() => {
+    if(uploadImage){
+      // Code to upload the image to the server
+      newImageUpload();
+    }
+  }
+  , [uploadImage]) // Dependency array for the useEffect
+
+  // Function to upload the new image to the server
+  const newImageUpload = async () => {
+    // Code to upload the image to the server
+    
   }
 
   return (

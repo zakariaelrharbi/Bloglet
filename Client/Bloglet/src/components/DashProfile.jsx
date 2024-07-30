@@ -58,6 +58,8 @@ const DashProfile = () => {
         // Code to handle upload error
         setImageFileUploadingError("Error uploading file (file must be an image and less than 2MB)");
         setImageFileUploadingProgress(null);
+        setUploadImage(null);
+        setImageFileUrl(null);
       },
       () => {
         // Code to handle upload completion

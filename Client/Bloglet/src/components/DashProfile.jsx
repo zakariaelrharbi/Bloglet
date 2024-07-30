@@ -1,7 +1,8 @@
-import { Button, TextInput } from 'flowbite-react' // Importing components from Flowbite for UI elements
+import { Alert, Button, TextInput } from 'flowbite-react' // Importing components from Flowbite for UI elements
 import React, { useEffect, useRef, useState } from 'react' // Importing React and hooks from React
 import { useSelector } from 'react-redux' // Importing useSelector to access Redux store state
-import { getStorage } from 'firebase/storage' // Importing Firebase storage functions
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage' // Importing Firebase storage functions
+import { app } from '../firebase';// Importing the Firebase app instance from the firebase file
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
@@ -11,6 +12,10 @@ const DashProfile = () => {
   const [uploadImage, setUploadImage] = useState(null)
   // State for storing the URL of the selected image for preview
   const [imageFileUrl, setImageFileUrl] = useState(null)
+
+  const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null)
+  const [imageFileUploadingError, setImageFileUploadingError] = useState(null)
+  console.log(imageFileUploadingProgress, imageFileUploadingError)
   
   // Ref for accessing the file input element directly
   const filePickerref = useRef(null)
@@ -38,6 +43,26 @@ const DashProfile = () => {
     // Code to upload the image to the server
     const storage = getStorage(app) // Getting the Firebase storage instance
     const fileName = new Date().getTime() + uploadImage.name; // Generating a unique file name
+    const storageRef = ref(storage, fileName) // Creating a reference to the storage location
+    const uploadTask = uploadBytesResumable(storageRef, uploadImage) // Uploading the image to the storage location
+    uploadTask.on('state_changed', // Event listener for upload state change
+      (snapshot) => {
+        // Code to handle upload progress
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageFileUploadingProgress(progress.toFixed(0))
+      },
+      (error) => {
+        // Code to handle upload error
+        setImageFileUploadingError("Error uploading file (file must be an image and less than 2MB)");
+      },
+      () => {
+        // Code to handle upload completion
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          // Code to handle download URL
+          setImageFileUrl(downloadURL)
+        });
+      }
+      )
   }
 
   return (
@@ -51,6 +76,7 @@ const DashProfile = () => {
           className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />
           {/* Displaying the image, either from file upload or from current user profile picture */}
         </div>
+        {imageFileUploadingError && <Alert color='failure'>{imageFileUploadingError}</Alert>} {/* Alert for image upload error */}
         <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username}/> {/* Input for username with default value */}
         <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email}/> {/* Input for email with default value */}
         <TextInput type='password' id='password' placeholder='password'/> {/* Input for password */}

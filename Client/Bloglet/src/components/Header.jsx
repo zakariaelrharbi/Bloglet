@@ -14,17 +14,21 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Function to close the navigation bar
   const closeNavbar = () => {
     setNavIsOpened(false);
   };
 
+  // Function to toggle the navigation bar
   const toggleNavbar = () => {
     setNavIsOpened((prev) => !prev);
   };
 
+  // Access currentUser from Redux store
   const currentUser = useSelector((state) => state.user.currentUser);
   const user = currentUser;
 
+  // Function to handle sign out
   const handleSignout = async () => {
     try {
       const res = await fetch('http://localhost:5000/api/signout', {
@@ -44,6 +48,7 @@ const Header = () => {
 
   return (
     <>
+      {/* Overlay to close the navbar when clicked */}
       <div
         aria-hidden="true"
         onClick={closeNavbar}
@@ -51,16 +56,20 @@ const Header = () => {
       />
       <header className="sticky top-0 w-full flex items-center h-20 border-b border-b-gray-600 dark:border-b-gray-900 z-40 bg-white/80 dark:bg-gray-950/80 backdrop-filter backdrop-blur-xl">
         <nav className="relative mx-auto lg:max-w-9xl w-full px-5 sm:px-10 md:px-12 lg:px-5 flex gap-x-5 justify-between items-center">
+          {/* Brand logo and link */}
           <div className="flex items-center min-w-max">
             <Link to="/" className='lg:px-8 mr-14 font-Roboto font-bold text-2xl lg:text-2xl dark:text-white'>
               BloGlet
             </Link>
           </div>
+
+          {/* Navigation links and actions */}
           <div
             className={`absolute top-full left-0 bg-white dark:bg-gray-950 lg:bg-transparent border-b border-gray-200 dark:border-gray-800 py-8 lg:py-0 px-5 sm:px-10 md:px-12 lg:px-0 lg:border-none w-full lg:top-0 lg:relative lg:w-max lg:flex lg:transition-none duration-300 ease-linear gap-x-6 ${
               navIsOpened ? "visible opacity-100 translate-y-0" : "translate-y-10 opacity-0 invisible lg:visible lg:translate-y-0 lg:opacity-100"
             }`}
           >
+            {/* Navigation links */}
             <ul className="flex flex-col lg:flex-row gap-6 lg:items-center text-gray-700 dark:text-gray-300 lg:w-full lg:justify-center">
               <li>
                 <Link to="/" className="relative py-2.5 duration-300 ease-linear hover:text-indigo-600 after:absolute after:w-full after:left-0 after:bottom-0 after:h-px after:rounded-md after:origin-left after:ease-linear after:duration-300 after:scale-x-0 hover:after:scale-x-100 after:bg-indigo-600">
@@ -83,6 +92,8 @@ const Header = () => {
                 </Link>
               </li>
             </ul>
+
+            {/* Search form */}
             <div className="lg:flex lg:gap-4 lg:items-center">
               <form className="flex items-center">
                 <TextInput
@@ -93,10 +104,13 @@ const Header = () => {
                 />
               </form>
             </div>
-            <button onClick={()=>{dispatch(toggleTheme())}}>
+
+            {/* Dark mode toggle */}
+            <button onClick={() => dispatch(toggleTheme())} >
               <DarkModeButton />
             </button>
 
+            {/* User menu */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">
               <div className="hidden lg:flex lg:items-center">
                 {!user ? (
@@ -132,6 +146,8 @@ const Header = () => {
               </div>
             </div>
           </div>
+
+          {/* Mobile menu toggle */}
           <div className="flex items-center lg:hidden">
             <button
               onClick={toggleNavbar}

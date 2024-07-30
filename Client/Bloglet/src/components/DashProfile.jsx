@@ -88,7 +88,7 @@ const DashProfile = () => {
                  },
                  path: {
                   stroke: `rgba(62, 152, 199, ${
-                    imageFileUploadProgress / 100
+                    imageFileUploadingProgress / 100
                   })`,
                 },
               }}
@@ -97,7 +97,11 @@ const DashProfile = () => {
           )}
           {/* Image display area with click event to trigger file input */}
           <img src={imageFileUrl || currentUser.profilePicture} alt="user" 
-          className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />
+          className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
+            imageFileUploadingProgress &&
+            imageFileUploadingProgress < 100 &&
+            'opacity-60'
+          }`} />
           {/* Displaying the image, either from file upload or from current user profile picture */}
         </div>
         {imageFileUploadingError && <Alert color='failure'>{imageFileUploadingError}</Alert>} {/* Alert for image upload error */}

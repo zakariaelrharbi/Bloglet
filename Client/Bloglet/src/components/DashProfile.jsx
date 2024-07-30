@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react' // Importing React an
 import { useSelector } from 'react-redux' // Importing useSelector to access Redux store state
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage' // Importing Firebase storage functions
 import { app } from '../firebase';// Importing the Firebase app instance from the firebase file
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
@@ -70,7 +72,29 @@ const DashProfile = () => {
       <h1 className='my-8 text-center font-semibold text-3xl '>Profile</h1> {/* Profile heading */}
       <form className='flex flex-col gap-4'> {/* Form container with vertical spacing */}
         <input type='file' accept='image/*' onChange={handleImageUpload} className='hidden' ref={filePickerref}/> {/* Hidden file input for image upload */}
-        <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full' onClick={() => filePickerref.current.click()}>
+        <div className=' relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full' onClick={() => filePickerref.current.click()}>
+          {/* progress bar  */}
+          {imageFileUploadingProgress && (
+             <CircularProgressbar value={imageFileUploadingProgress || 0} 
+             text={`${imageFileUploadingProgress}%`} 
+             strokeWidth={5}
+              styles={{
+                root: { 
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                 },
+                 path: {
+                  stroke: `rgba(62, 152, 199, ${
+                    imageFileUploadProgress / 100
+                  })`,
+                },
+              }}
+
+             />
+          )}
           {/* Image display area with click event to trigger file input */}
           <img src={imageFileUrl || currentUser.profilePicture} alt="user" 
           className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />

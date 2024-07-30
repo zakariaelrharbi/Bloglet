@@ -1,11 +1,13 @@
 import { Button, TextInput } from 'flowbite-react'
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import { useSelector } from 'react-redux'
 
 const DashProfile = () => {
   const currentUser = useSelector((state) => state.user.currentUser)
   const [uploadImage, setUploadImage] = useState(null)
   const [ imageFileUrl, setImageFileUrl ] = useState(null)
+  // to hide input inside image icon so that we can use it to trigger image picker
+  const filePickerref = useRef(null);
   const handleImageUpload = (e) => {
     const file = e.target.files[0]
     if(file){
@@ -19,8 +21,8 @@ const DashProfile = () => {
     <div className='max-w-lg mx-auto p-3'>
       <h1 className='mb-3 text-center font-semibold text-3xl'>Profile</h1>
       <form className='flex flex-col gap-4'>
-        <input type='file' accept='image/*' onChange={handleImageUpload} className='' />
-        <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'>
+        <input type='file' accept='image/*' onChange={handleImageUpload} className='' ref={filePickerref}/>
+        <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full' onClick={() => filePickerref.current.click()}>
           <img src={imageFileUrl || currentUser.profilePicture} alt="user" 
           className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />
         </div>

@@ -19,9 +19,9 @@ const DashProfile = () => {
 
   return (
     <div className='max-w-lg mx-auto p-3'>
-      <h1 className='mb-3 text-center font-semibold text-3xl'>Profile</h1>
+      <h1 className='my-8 text-center font-semibold text-3xl '>Profile</h1>
       <form className='flex flex-col gap-4'>
-        <input type='file' accept='image/*' onChange={handleImageUpload} className='' ref={filePickerref}/>
+        <input type='file' accept='image/*' onChange={handleImageUpload} className='hidden' ref={filePickerref}/>
         <div className='w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full' onClick={() => filePickerref.current.click()}>
           <img src={imageFileUrl || currentUser.profilePicture} alt="user" 
           className='rounded-full w-full h-full object-cover border-8 border-[#acacab]' />

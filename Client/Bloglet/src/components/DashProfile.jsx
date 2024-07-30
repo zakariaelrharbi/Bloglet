@@ -43,6 +43,7 @@ const DashProfile = () => {
   // Function to upload the new image to the server
   const newImageUpload = async () => {
     // Code to upload the image to the server
+    setImageFileUploadingError(null) // Clearing any previous error
     const storage = getStorage(app) // Getting the Firebase storage instance
     const fileName = new Date().getTime() + uploadImage.name; // Generating a unique file name
     const storageRef = ref(storage, fileName) // Creating a reference to the storage location

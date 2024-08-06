@@ -44,6 +44,6 @@ const initialState = {
     },
 });
 
-export const { signInStart, signInSuccess, signInFailure, signOutSuccess } = userSlice.actions;
+export const { signInStart, signInSuccess, signInFailure, signOutSuccess, updateStart, updateSuccess, updateFailure } = userSlice.actions;
 
 export default userSlice.reducer;

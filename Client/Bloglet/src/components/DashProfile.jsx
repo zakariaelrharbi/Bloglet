@@ -5,6 +5,8 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../firebase';// Importing the Firebase app instance from the firebase file
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useDispatch } from 'react-redux'; // Importing useDispatch to dispatch actions to the Redux store
+import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSlice'; // Importing the updateStart action from the userSlice
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store

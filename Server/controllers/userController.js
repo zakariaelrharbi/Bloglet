@@ -75,7 +75,7 @@ const updateUserInfo = async (req, res) => {
         const { password, ...rest } = updatedUser._doc;
         return res.status(200).json({
             user: rest,
-            message: 'info updated successfully',
+            message: 'user updated successfully',
             error: false,
             success: true
         });

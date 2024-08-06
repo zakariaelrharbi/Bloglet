@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const connect = require('./config/database');
 const cors = require('cors');
 const router = require('./routes/authRoutes');
+const userRouter = require('./routes/userRoutes');
+
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
@@ -19,6 +21,9 @@ app.use(cookieParser());
 
 // auth routes
 app.use('/api', router);
+// user routes
+app.use('/api/user', userRouter);
+
 
 const PORT = process.env.SERVER_PORT || 8000;
 

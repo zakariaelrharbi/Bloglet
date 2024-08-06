@@ -26,9 +26,9 @@ const updateUserInfo = async (req, res) => {
 
     // Check the username if provided
     if (req.body.username) {
-        if (req.body.username.length < 7 || req.body.username.length > 20) {
+        if (req.body.username.length < 5 || req.body.username.length > 20) {
             return res.status(400).json({
-                message: 'Username must be between 7 and 20 characters long',
+                message: 'Username must be between 5 and 20 characters long',
                 error: true,
                 success: false
             });

@@ -9,4 +9,6 @@ const updateUserInfo = async (req, res) => {
 
     try {
         const user = await User.findById(userId);
+    } catch (error) {
+    }
 }

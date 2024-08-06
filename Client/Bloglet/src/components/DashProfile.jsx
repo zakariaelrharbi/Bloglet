@@ -17,6 +17,9 @@ const DashProfile = () => {
 
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null)
   const [imageFileUploadingError, setImageFileUploadingError] = useState(null)
+
+  // State for storing form data
+const [formData, setFormData] = useState({});
   
   // Ref for accessing the file input element directly
   const filePickerref = useRef(null)
@@ -64,16 +67,31 @@ const DashProfile = () => {
         // Code to handle upload completion
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           // Code to handle download URL
-          setImageFileUrl(downloadURL)
+          setImageFileUrl(downloadURL);
+          setFormData({...formData, profilePicture: downloadURL});
         });
       }
       )
   }
 
+  // Function to handle form input change
+  const handleChange = (e) => {
+    // Code to handle form input change
+    setFormData({...formData, [e.target.id]: e.target.value})
+  }
+  
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    // Code to handle form submission
+    e.preventDefault();
+    console.log(formData);
+  }
+
   return (
     <div className='max-w-lg mx-auto p-3'> {/* Container for profile form with padding and center alignment */}
       <h1 className='my-8 text-center font-semibold text-3xl '>Profile</h1> {/* Profile heading */}
-      <form className='flex flex-col gap-4'> {/* Form container with vertical spacing */}
+      {/* Form container with vertical spacing */}
+      <form onSubmit={handleSubmit} className='flex flex-col gap-4'> 
         <input type='file' accept='image/*' onChange={handleImageUpload} className='hidden' ref={filePickerref}/> {/* Hidden file input for image upload */}
         <div className=' relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full' onClick={() => filePickerref.current.click()}>
           {/* progress bar  */}
@@ -108,9 +126,13 @@ const DashProfile = () => {
           {/* Displaying the image, either from file upload or from current user profile picture */}
         </div>
         {imageFileUploadingError && <Alert color='failure'>{imageFileUploadingError}</Alert>} {/* Alert for image upload error */}
-        <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username}/> {/* Input for username with default value */}
-        <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email}/> {/* Input for email with default value */}
-        <TextInput type='password' id='password' placeholder='password'/> {/* Input for password */}
+        {/* Input for username with default value */}
+        <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username} onChange={handleChange}/> 
+        {/* Input for email with default value */}
+        <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email} onChange={handleChange}/> 
+        {/* Input for password */}
+        <TextInput type='password' id='password' placeholder='password' onChange={handleChange}/> 
+
         <Button type='submit' className=''>Update</Button> {/* Button to submit the form */}
       </form>
       <div className='text-red-500 flex justify-between mt-5'> {/* Container for account management actions */}

@@ -91,18 +91,19 @@ const [formData, setFormData] = useState({});
     }
     try {
       dispatch(updateStart()); // Dispatching the updateStart action
-      const res = await fetch(`/api/user/update/${currentUser._id}`, { // Making a fetch request to update the user
+      const res = await fetch(`http://localhost:5000/api/user/update/${currentUser._id}`, { // Making a fetch request to update the user
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
       const data = await res.json();
-      if(data.error){
+      if(!res.ok){
         dispatch(updateFailure(data.error)); // Dispatching the updateFailure action
       } else {
-        dispatch(updateSuccess(data.user)); // Dispatching the updateSuccess action
+        dispatch(updateSuccess(data)); // Dispatching the updateSuccess action
       }
     } catch (error) {
       dispatch(updateFailure(error.message)); // Dispatching the updateFailure action

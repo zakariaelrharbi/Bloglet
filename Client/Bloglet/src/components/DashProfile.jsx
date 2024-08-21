@@ -11,7 +11,7 @@ import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSli
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
   const currentUser = useSelector((state) => state.user.currentUser)
-  
+  const dispatch = useDispatch(); // Accessing the dispatch function from the useDispatch hook
   // State for storing the selected image file
   const [uploadImage, setUploadImage] = useState(null)
   // State for storing the URL of the selected image for preview
@@ -81,18 +81,31 @@ const [formData, setFormData] = useState({});
     // Code to handle form input change
     setFormData({...formData, [e.target.id]: e.target.value})
   }
-  console.log(formData)
+
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Code to handle form submission
     e.preventDefault();
     if(Object.keys(formData).length === 0){
       return;
     }
     try {
-      
+      dispatch(updateStart()); // Dispatching the updateStart action
+      const res = await fetch(`/api/user/update/${currentUser._id}`, { // Making a fetch request to update the user
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if(data.error){
+        dispatch(updateFailure(data.error)); // Dispatching the updateFailure action
+      } else {
+        dispatch(updateSuccess(data.user)); // Dispatching the updateSuccess action
+      }
     } catch (error) {
-      
+      dispatch(updateFailure(error.message)); // Dispatching the updateFailure action
     }
   }
 

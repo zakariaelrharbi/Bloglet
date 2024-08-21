@@ -7,6 +7,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useDispatch } from 'react-redux'; // Importing useDispatch to dispatch actions to the Redux store
 import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSlice'; // Importing the updateStart action from the userSlice
+import { toast } from 'sonner'; // Importing the toast function from Sonner for displaying notifications
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
@@ -102,11 +103,14 @@ const [formData, setFormData] = useState({});
       const data = await res.json();
       if(!res.ok){
         dispatch(updateFailure(data.error)); // Dispatching the updateFailure action
+        toast.error(data.error); // Displaying an error notification
       } else {
         dispatch(updateSuccess(data)); // Dispatching the updateSuccess action
+        toast.success(data.message); // Displaying a success notification
       }
     } catch (error) {
       dispatch(updateFailure(error.message)); // Dispatching the updateFailure action
+      toast.error('An error occurred. Please try again'); // Displaying an error notification
     }
   }
 

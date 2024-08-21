@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 // Middleware to verify user
 const verifyUser = (req, res, next) => {
-    const token = req.cookies.access_token;
+
+    const token = req.cookies.access_token;  // Ensure this is correctly set
     if (!token) {
         return res.status(401).json({
             message: 'Access denied. No token provided.',

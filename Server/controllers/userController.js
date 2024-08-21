@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 
 // update user info
 const updateUserInfo = async (req, res) => {
+    console.log('Request User:', req.user); // Log the user from the token
+    console.log('User ID from Params:', req.params.userId); // Log the user ID from params
+    
     // Check if the user is authorized to update
     if (req.user.id !== req.params.userId) {
         return res.status(403).json({

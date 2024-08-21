@@ -94,7 +94,7 @@ const userSignin = async (req, res) => {
 
         const { password: userPassword, ...rest } = validUser._doc;
         return res.status(200)
-            .cookie('access_token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' })
+            .cookie('access_token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict', })
             .json({
                 user: rest,
                 message: 'Signin successful',

@@ -81,7 +81,7 @@ const [formData, setFormData] = useState({});
     // Code to handle form input change
     setFormData({...formData, [e.target.id]: e.target.value})
   }
-  
+  console.log(formData)
   // Function to handle form submission
   const handleSubmit = (e) => {
     // Code to handle form submission

@@ -101,8 +101,6 @@ const [formData, setFormData] = useState({});
       });
   
       const data = await res.json();
-      console.log('Backend response:', data);
-  
       if (!res.ok) {
         dispatch(updateFailure(data.error));
         toast.error(data.error);

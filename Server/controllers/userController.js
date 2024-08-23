@@ -3,10 +3,7 @@ const bcrypt = require('bcrypt');
 
 // update user info
 const updateUserInfo = async (req, res) => {
-    console.log('Request User:', req.user); // Log the user from the token
-    console.log('User ID from Params:', req.params.userId); // Log the user ID from params
-    
-    // Check if the user is authorized to update
+    // Check if user is authorized to update the user
     if (req.user.id !== req.params.userId) {
         return res.status(403).json({
             message: 'You are not authorized to update this user',
@@ -15,7 +12,9 @@ const updateUserInfo = async (req, res) => {
         });
     }
 
-    // Check and hash the password if provided
+    const updates = {};
+
+    // Handle password update
     if (req.body.password) {
         if (req.body.password.length < 8) {
             return res.status(400).json({
@@ -24,61 +23,43 @@ const updateUserInfo = async (req, res) => {
                 success: false
             });
         }
-        req.body.password = bcrypt.hashSync(req.body.password, 10);
+        updates.password = bcrypt.hashSync(req.body.password, 10);
     }
 
-    // Check the username if provided
+    // Handle username update
     if (req.body.username) {
-        if (req.body.username.length < 5 || req.body.username.length > 20) {
+        if (req.body.username.length < 5 || req.body.username.length > 20 ||
+            req.body.username.includes(' ') || req.body.username !== req.body.username.toLowerCase() ||
+            !req.body.username.match(/^[a-z0-9]+$/)) {
             return res.status(400).json({
-                message: 'Username must be between 5 and 20 characters long',
+                message: 'Invalid username',
                 error: true,
                 success: false
             });
         }
-        if (req.body.username.includes(' ')) {
+        // Check if username is already taken
+        const existingUser = await User.findOne({ username: req.body.username });
+        if (existingUser && existingUser._id.toString() !== req.params.userId) {
             return res.status(400).json({
-                message: 'Username cannot contain spaces',
+                message: 'Username is already taken',
                 error: true,
                 success: false
             });
         }
-        if (req.body.username !== req.body.username.toLowerCase()) {
-            return res.status(400).json({
-                message: 'Username must be lowercase',
-                error: true,
-                success: false
-            });
-        }
-        if (!req.body.username.match(/^[a-z0-9]+$/)) {
-            return res.status(400).json({
-                message: 'Username must contain only letters and numbers',
-                error: true,
-                success: false
-            });
-        }
+        updates.username = req.body.username;
     }
+
+    // Handle other fields
+    if (req.body.email) updates.email = req.body.email;
+    if (req.body.profilePicture) updates.profilePicture = req.body.profilePicture;
 
     // Update the user
     try {
-        const updatedUser = await User.findByIdAndUpdate(
-            req.params.userId,
-            {
-                $set: {
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password,
-                    profilePicture: req.body.profilePicture,
-                },
-            },
-            { new: true }
-        );
-        
-        // Exclude the password from the response
+        const updatedUser = await User.findByIdAndUpdate(req.params.userId, { $set: updates }, { new: true });
         const { password, ...rest } = updatedUser._doc;
         return res.status(200).json({
             user: rest,
-            message: 'user updated successfully',
+            message: 'User updated successfully',
             error: false,
             success: true
         });

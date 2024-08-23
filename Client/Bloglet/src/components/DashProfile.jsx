@@ -85,14 +85,13 @@ const [formData, setFormData] = useState({});
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    // Code to handle form submission
     e.preventDefault();
-    if(Object.keys(formData).length === 0){
+    if (Object.keys(formData).length === 0) {
       return;
     }
     try {
-      dispatch(updateStart()); // Dispatching the updateStart action
-      const res = await fetch(`http://localhost:5000/api/user/update/${currentUser._id}`, { // Making a fetch request to update the user
+      dispatch(updateStart());
+      const res = await fetch(`http://localhost:5000/api/user/update/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,19 +99,23 @@ const [formData, setFormData] = useState({});
         body: JSON.stringify(formData),
         credentials: 'include',
       });
+  
       const data = await res.json();
-      if(!res.ok){
-        dispatch(updateFailure(data.error)); // Dispatching the updateFailure action
-        toast.error(data.error); // Displaying an error notification
+      console.log('Backend response:', data);
+  
+      if (!res.ok) {
+        dispatch(updateFailure(data.error));
+        toast.error(data.error);
       } else {
-        dispatch(updateSuccess(data)); // Dispatching the updateSuccess action
-        toast.success(data.message); // Displaying a success notification
+        dispatch(updateSuccess(data.user)); // Ensure this is the correct structure
+        toast.success(data.message);
       }
     } catch (error) {
-      dispatch(updateFailure(error.message)); // Dispatching the updateFailure action
-      toast.error('An error occurred. Please try again'); // Displaying an error notification
+      dispatch(updateFailure(error.message));
+      toast.error('An error occurred. Please try again');
     }
-  }
+  };
+  
 
   return (
     <div className='max-w-lg mx-auto p-3'> {/* Container for profile form with padding and center alignment */}

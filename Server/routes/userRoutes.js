@@ -5,5 +5,6 @@ const router = express.Router();
 
 
 router.put('/update/:userId', verifyUser, updateUserInfo);
+router.delete('/delete/:userId', verifyUser, deleteUser);
 
 module.exports = router;

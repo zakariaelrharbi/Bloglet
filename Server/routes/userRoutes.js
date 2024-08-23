@@ -1,5 +1,5 @@
 const express = require('express');
-const { updateUserInfo } = require('../controllers/userController');
+const { updateUserInfo, deleteUser } = require('../controllers/userController');
 const verifyUser  = require('../middleware/verifyUser');
 const router = express.Router();
 

@@ -73,4 +73,31 @@ const updateUserInfo = async (req, res) => {
     }
 };
 
-module.exports = { updateUserInfo };
+// delete user
+const deleteUser = async (req, res) => {
+    // Check if user is authorized to delete the user
+    if (req.user.id !== req.params.userId) {
+        return res.status(403).json({
+            message: 'You are not authorized to delete this user',
+            error: true,
+            success: false
+        });
+    }
+
+    try {
+        await User.findByIdAndDelete(req.params.userId);
+        return res.status(200).json({
+            message: 'User deleted successfully',
+            error: false,
+            success: true
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+            error: true,
+            success: false
+        });
+    }
+};
+module.exports = { updateUserInfo, deleteUser };

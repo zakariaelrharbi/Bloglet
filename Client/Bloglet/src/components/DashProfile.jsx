@@ -20,6 +20,8 @@ const DashProfile = () => {
 
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null)
   const [imageFileUploadingError, setImageFileUploadingError] = useState(null)
+  // state to make sure image upload is done
+  const [ImageUploadDone, setImageUploadDone] = useState(false)
 
   // State for storing form data
 const [formData, setFormData] = useState({});
@@ -47,6 +49,7 @@ const [formData, setFormData] = useState({});
 
   // Function to upload the new image to the server
   const newImageUpload = async () => {
+    setImageUploadDone(true) // Setting the image upload status to false
     // Code to upload the image to the server
     setImageFileUploadingError(null) // Clearing any previous error
     const storage = getStorage(app) // Getting the Firebase storage instance
@@ -65,6 +68,7 @@ const [formData, setFormData] = useState({});
         setImageFileUploadingProgress(null);
         setUploadImage(null);
         setImageFileUrl(null);
+        setImageUploadDone(false);
       },
       () => {
         // Code to handle upload completion
@@ -72,6 +76,7 @@ const [formData, setFormData] = useState({});
           // Code to handle download URL
           setImageFileUrl(downloadURL);
           setFormData({...formData, profilePicture: downloadURL});
+          setImageUploadDone(false);
         });
       }
       )
@@ -89,6 +94,10 @@ const [formData, setFormData] = useState({});
     if (Object.keys(formData).length === 0) {
       return;
     }
+    if(ImageUploadDone){
+      return;
+    }
+
     try {
       dispatch(updateStart());
       const res = await fetch(`http://localhost:5000/api/user/update/${currentUser._id}`, {

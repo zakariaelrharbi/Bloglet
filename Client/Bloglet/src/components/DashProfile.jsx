@@ -6,7 +6,7 @@ import { app } from '../firebase';// Importing the Firebase app instance from th
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useDispatch } from 'react-redux'; // Importing useDispatch to dispatch actions to the Redux store
-import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSlice'; // Importing the updateStart action from the userSlice
+import { updateStart, updateSuccess, updateFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'; // Importing the updateStart action from the userSlice
 import { toast } from 'sonner'; // Importing the toast function from Sonner for displaying notifications
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
@@ -122,7 +122,7 @@ const DashProfile = () => {
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
-      toast.error('An error occurred. Please try again');
+      toast.error(error.message);
     }
   };
   
@@ -130,9 +130,22 @@ const DashProfile = () => {
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
-      
+      dispatch(deleteUserStart());
+      const res = await fetch(`http://localhost:5000/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.error));
+        toast.error(data.error);
+      } else {
+        dispatch(deleteUserSuccess());
+        toast.success(data.message);
+      }
     } catch (error) {
-      
+      dispatch(deleteUserFailure(error.message));
+      toast.error(error.message);
     }
   }
 

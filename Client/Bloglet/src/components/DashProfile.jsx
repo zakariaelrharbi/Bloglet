@@ -128,6 +128,12 @@ const DashProfile = () => {
   
   // Function to handle user account deletion
   const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      
+    } catch (error) {
+      
+    }
   }
 
   return (

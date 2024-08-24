@@ -25,6 +25,7 @@ const DashProfile = () => {
 
   // State for storing form data
   const [formData, setFormData] = useState({});
+  const [showModal, setShowModal] = useState(false); // State for showing the modal
   
   // Ref for accessing the file input element directly
   const filePickerref = useRef(null)
@@ -173,7 +174,7 @@ const DashProfile = () => {
         <Button type='submit' className=''>Update</Button> {/* Button to submit the form */}
       </form>
       <div className='text-red-500 flex justify-between mt-5'> {/* Container for account management actions */}
-        <span className='cursor-pointer'>Delete Account</span> {/* Link to delete account */}
+        <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span> {/* Link to delete account */}
         <span className='cursor-pointer'>Sign Out</span> {/* Link to sign out */}
       </div>
     </div>

@@ -24,7 +24,7 @@ const DashProfile = () => {
   const [ImageUploadDone, setImageUploadDone] = useState(false)
 
   // State for storing form data
-const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({});
   
   // Ref for accessing the file input element directly
   const filePickerref = useRef(null)

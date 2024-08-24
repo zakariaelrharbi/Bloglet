@@ -1,4 +1,4 @@
-import { Alert, Button, TextInput } from 'flowbite-react' // Importing components from Flowbite for UI elements
+import { Alert, Button, Modal, TextInput } from 'flowbite-react' // Importing components from Flowbite for UI elements
 import React, { useEffect, useRef, useState } from 'react' // Importing React and hooks from React
 import { useSelector } from 'react-redux' // Importing useSelector to access Redux store state
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage' // Importing Firebase storage functions
@@ -8,6 +8,8 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useDispatch } from 'react-redux'; // Importing useDispatch to dispatch actions to the Redux store
 import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSlice'; // Importing the updateStart action from the userSlice
 import { toast } from 'sonner'; // Importing the toast function from Sonner for displaying notifications
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
@@ -124,6 +126,9 @@ const DashProfile = () => {
     }
   };
   
+  // Function to handle user account deletion
+  const handleDeleteUser = async () => {
+  }
 
   return (
     <div className='max-w-lg mx-auto p-3'> {/* Container for profile form with padding and center alignment */}
@@ -177,6 +182,25 @@ const DashProfile = () => {
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span> {/* Link to delete account */}
         <span className='cursor-pointer'>Sign Out</span> {/* Link to sign out */}
       </div>
+      {/* Modal for delete account confirmation */}
+      <Modal 
+        show={showModal} 
+        onClose={()=>setShowModal(false)}
+        popup
+        size='md'
+        >
+        <Modal.Header/> {/* Modal header */}
+        <Modal.Body> {/* Modal body */}
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto'/> {/* Icon */}
+            <h3 className='text-lg font-semibold mb-5 text-gray-500 dark:text-gray-400'>Are you sure you want to delete your account?</h3> {/* Confirmation message */}
+            <div className='flex justify-center gap-4'> 
+              <Button color='failure' className='mr-2' onClick={handleDeleteUser}>Yes, I'm sure</Button> {/* Button to cancel account deletion */}
+              <Button onClick={()=>setShowModal(false)}>No, Cancel</Button> {/* Button to confirm account deletion */}
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal> 
     </div>
   )
 }

@@ -9,6 +9,7 @@ import Projects from './Pages/Projects'
 import Header from './components/Header'
 import Contact from './Pages/Contact'
 import Footer from './components/Footer'
+import createPost from './Pages/createPost'
 import { Toaster } from 'sonner'; // Ensure you're using 'sonner' consistently
 import PrivateRoute from './components/PrivateRoute'
 
@@ -29,6 +30,7 @@ const App = () => {
         <Route path='/about' element={<About />} />
         <Route path='/projects' element={<Projects />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/create-post' element={<createPost />} />
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route> 

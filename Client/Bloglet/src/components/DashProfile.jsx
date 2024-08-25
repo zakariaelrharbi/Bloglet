@@ -149,6 +149,25 @@ const DashProfile = () => {
     }
   }
 
+  // Function to handle sign out
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/signout', {
+        method: 'POST',
+      });
+      const dataRes = await res.json();
+      if (!res.ok) {
+        toast.error(dataRes.message);
+      } else {
+        toast.success(dataRes.message);
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again');
+    }
+  };
+
+
   return (
     <div className='max-w-lg mx-auto p-3'> {/* Container for profile form with padding and center alignment */}
       <h1 className='my-8 text-center font-semibold text-3xl '>Profile</h1> {/* Profile heading */}

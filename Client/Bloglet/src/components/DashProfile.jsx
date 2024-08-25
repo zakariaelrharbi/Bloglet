@@ -10,6 +10,7 @@ import { updateStart, updateSuccess, updateFailure, deleteUserStart, deleteUserS
 import { toast } from 'sonner'; // Importing the toast function from Sonner for displaying notifications
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { signOutSuccess } from '../redux/user/userSlice';
+import { Link } from 'react-router-dom'; // Importing the Link component from React Router
 
 
 
@@ -217,6 +218,19 @@ const DashProfile = () => {
         <TextInput type='password' id='password' placeholder='password' onChange={handleChange}/> 
 
         <Button type='submit' className=''>Update</Button> {/* Button to submit the form */}
+        {
+          currentUser.isAdmin && (
+            <Link to={'create-post'}>
+              <Button 
+                outline
+                type='button'
+                className=' w-full'
+              >
+                Create Post
+              </Button>
+            </Link>
+          )
+        }
       </form>
       <div className='text-red-500 flex justify-between mt-5'> {/* Container for account management actions */}
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span> {/* Link to delete account */}

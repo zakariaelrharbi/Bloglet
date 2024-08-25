@@ -220,7 +220,7 @@ const DashProfile = () => {
         <Button type='submit' className=''>Update</Button> {/* Button to submit the form */}
         {
           currentUser.isAdmin && (
-            <Link to={'create-post'}>
+            <Link to={'/create-post'}>
               <Button 
                 outline
                 type='button'

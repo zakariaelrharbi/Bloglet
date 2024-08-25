@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux'; // Importing useDispatch to dispatch 
 import { updateStart, updateSuccess, updateFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'; // Importing the updateStart action from the userSlice
 import { toast } from 'sonner'; // Importing the toast function from Sonner for displaying notifications
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { signOutSuccess } from '../redux/user/userSlice';
+
 
 
 const DashProfile = () => {
@@ -218,7 +220,7 @@ const DashProfile = () => {
       </form>
       <div className='text-red-500 flex justify-between mt-5'> {/* Container for account management actions */}
         <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span> {/* Link to delete account */}
-        <span className='cursor-pointer'>Sign Out</span> {/* Link to sign out */}
+        <span onClick={handleSignout} className='cursor-pointer'>Sign Out</span> {/* Link to sign out */}
       </div>
       {/* Modal for delete account confirmation */}
       <Modal 

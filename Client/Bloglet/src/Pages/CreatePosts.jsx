@@ -25,6 +25,7 @@ const CreatePost = () => {
           <Button type='button' outline >Upload Image</Button>
         </div>
         <ReactQuill theme='snow' placeholder='Write something...' className='h-72 mb-12'/>
+        <Button type='submit'>Publish</Button>
       </form>
     </div>
   )

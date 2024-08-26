@@ -1,4 +1,4 @@
-import { Select, TextInput } from 'flowbite-react'
+import { Button, FileInput, Select, TextInput } from 'flowbite-react'
 import React from 'react'
 
 const CreatePost = () => {
@@ -17,6 +17,10 @@ const CreatePost = () => {
               <option value='politics'>Politics</option>
               <option value='entertainment'>Entertainment</option>
             </Select>
+        </div>
+        <div className='flex gap-4 items-center justify-between border-4 border-gray-300 border-dashed p-3'>
+          <FileInput type='file' accept='image/*' />
+          <Button type='button' outline >Upload Image</Button>
         </div>
       </form>
     </div>

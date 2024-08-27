@@ -7,16 +7,19 @@ import { app } from '../firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { toast } from 'sonner'; 
+import {useNavigate} from 'react-router-dom';
 
 const CreatePost = () => {
   const [file, setFile] = useState(null);
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     category: 'uncategorized',
     content: '',
     image: '',
   });
+ 
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -67,10 +70,31 @@ const CreatePost = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Handle form submission logic, e.g., sending formData to a backend API
-    console.log('Form data submitted:', formData);
+    try {
+      const res = await fetch('http://localhost:5000/api/post/createPost', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', 
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if(!res.ok) {
+        toast.error(data.message);
+        return;
+      }
+      if(res.ok) {
+        toast.success('Post created successfully');
+        navigate(`/post/${data.post.slug}`);
+      }
+
+    } catch (error) {
+      toast.error('Failed to create post');
+    }
   };
 
   return (

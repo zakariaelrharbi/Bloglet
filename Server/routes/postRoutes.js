@@ -2,7 +2,7 @@ const express = require('express');
 
 const { createPost, getPosts, updatePost, deletePost } = require('../controllers/postController');
 
-const verifyUser = require('../middleware/verifyUser');
+const verifyUser  = require('../middleware/verifyUser');
 const router = express.Router();
 
 router.post('/createPost', verifyUser, createPost);

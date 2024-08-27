@@ -16,8 +16,8 @@ const createPost = async (req, res) => {
     .replace(/[^a-zA-Z0-9-]/g, '');
     const newPost = new Post({
         ...req.body,
-        userId: req.user.id,
         slug,
+        userId: req.user.id,
     });
     try {
         const post = await newPost.save();

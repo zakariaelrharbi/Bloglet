@@ -4,6 +4,7 @@ import { SlUser } from "react-icons/sl";
 import { PiSignOutLight } from "react-icons/pi";
 import { Link, useLocation } from 'react-router-dom'
 import { HiDocumentText } from "react-icons/hi2";
+import { MdNoteAdd } from "react-icons/md";
 import { signOutSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -56,6 +57,12 @@ const DashSideBar = () => {
             labelColor ='dark'
             as='div'>
               Profile
+            </Sidebar.Item>
+          </Link>
+          <Link to='/dashboard?tab=createPost'>
+            <Sidebar.Item active={tab === 'createPost'} icon={MdNoteAdd} 
+            as='div'>
+              Create Post
             </Sidebar.Item>
           </Link>
           <Link to='/dashboard?tab=posts'>

@@ -70,7 +70,7 @@ const DashPosts = () => {
         </>
       ) : (
         <div>
-          <h1 className="text-2xl text-center font-bold">No posts yet</h1>
+          <h1 className="text-2xl text-center font-bold min-h-screen pt-6">No posts yet</h1>
         </div>
       )
       }

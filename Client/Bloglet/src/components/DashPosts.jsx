@@ -2,6 +2,7 @@ import { Table } from 'flowbite-react'
 import React, {useEffect, useState} from 'react'
 import { useSelector} from 'react-redux'
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const DashPosts = () => {
 
@@ -18,7 +19,7 @@ const DashPosts = () => {
         }
         
       } catch (error) {
-        console.log(error)
+        toast.error('An error occurred while fetching posts')
       }
     }
     fetchPosts();

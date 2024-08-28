@@ -1,18 +1,18 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import Home from './Pages/Home'
-import About from './Pages/About'
-import SignIn from './Pages/SignIn'
-import SignUp from './Pages/SignUp'
-import Dashboard from './Pages/Dashboard'
-import Projects from './Pages/Projects'
-import Header from './components/Header'
-import Contact from './Pages/Contact'
-import Footer from './components/Footer'
-import CreatePost from './Pages/CreatePosts'
-import { Toaster } from 'sonner'; // Ensure you're using 'sonner' consistently
-import PrivateRoute from './components/PrivateRoute'
-
+import React from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import Home from './Pages/Home';
+import About from './Pages/About';
+import SignIn from './Pages/SignIn';
+import SignUp from './Pages/SignUp';
+import Dashboard from './Pages/Dashboard';
+import Projects from './Pages/Projects';
+import Header from './components/Header';
+import Contact from './Pages/Contact';
+import Footer from './components/Footer';
+import CreatePost from './Pages/CreatePosts';
+import { Toaster } from 'sonner';
+import PrivateRoute from './components/PrivateRoute';
+import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
   const location = useLocation();
@@ -37,11 +37,12 @@ const App = () => {
       </Routes>
       {showHeaderFooter && <Footer />}
     </div>
-  )
-}
+  );
+};
 
 const AppWrapper = () => (
   <BrowserRouter>
+    <ScrollToTop />
     <App />
   </BrowserRouter>
 );

@@ -19,7 +19,6 @@ const CreatePost = () => {
     content: '',
     image: '',
   });
- 
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -89,7 +88,10 @@ const CreatePost = () => {
       }
       if(res.ok) {
         toast.success('Post created successfully');
-        navigate(`/post/${data.post.slug}`);
+        // navigate(`/post/${data.post.slug}`);
+        setTimeout(() => {
+          navigate('/dashboard?tab=posts');
+        }, 1500);
       }
 
     } catch (error) {
@@ -151,7 +153,9 @@ const CreatePost = () => {
           value={formData.content} 
           onChange={handleContentChange}
         />
-        <Button type='submit' className='mb-12'>Publish</Button>
+        <Button type='submit' className='mb-12'>
+          Publish
+        </Button>
       </form>
     </div>
   );

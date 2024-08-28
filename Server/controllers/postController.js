@@ -87,6 +87,28 @@ const getPosts = async (req, res) => {
 
 const updatePost = async (req, res) => {};
 
-const deletePost = async (req, res) => {};
+const deletePost = async (req, res) => {
+    if(req.user.id !== req.params.userId) {
+        return res.status(403).json({
+            message: 'You are not authorized to perform this action',
+            error: true,
+            success: false
+        });
+    }
+    try {
+        await Post.findByIdAndDelete(req.params.postId);
+        return res.status(200).json({
+            message: 'Post deleted successfully',
+            error: false,
+            success: true
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+            error: true,
+            success: false
+        });
+    }
+};
 
 module.exports = {createPost, getPosts, updatePost, deletePost};

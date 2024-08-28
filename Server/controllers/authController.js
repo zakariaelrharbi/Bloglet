@@ -90,7 +90,7 @@ const userSignin = async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: validUser._id, isAmin: validUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: validUser._id, isAmin: validUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
         const { password: userPassword, ...rest } = validUser._doc;
         return res.status(200)

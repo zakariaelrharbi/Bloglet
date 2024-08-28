@@ -8,6 +8,6 @@ const router = express.Router();
 router.post('/createPost', verifyUser, createPost);
 router.get('/getAllPosts', getPosts);
 router.put('/update/:postId', verifyUser, updatePost);
-router.delete('/delete/:postId', verifyUser, deletePost);
+router.delete('/deletePost/:postId/:userId', verifyUser, deletePost);
 
 module.exports = router;

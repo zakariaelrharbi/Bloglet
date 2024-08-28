@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: [
     flowbite.plugin(),
+    require('tailwind-scrollbar'),
   ],
   corePlugins: {
     preflight: true, // Enable preflight

@@ -27,6 +27,11 @@ const DashSideBar = () => {
     }
   }, [location.search])
 
+  useEffect(() => {
+    // Scroll to top whenever the tab changes
+    window.scrollTo(0, 0);
+  }, [tab]);
+
   // Function to handle sign out
   const handleSignout = async () => {
     try {
@@ -47,7 +52,7 @@ const DashSideBar = () => {
 
 
   return (
-    <Sidebar className='w-full md:w-56'>
+    <Sidebar className='w-full md:w-56 '>
       <Sidebar.Items>
         <Sidebar.ItemGroup className='cursor-pointer flex flex-col gap-1'>
           <Link to='/dashboard?tab=profile'>

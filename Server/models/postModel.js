@@ -28,6 +28,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: 'https://dinarakasko.com/image/cache/catalog/basel-demo/blog-1140x700.png',
     },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);

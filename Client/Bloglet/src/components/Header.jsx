@@ -104,7 +104,7 @@ const Header = () => {
                   placeholder="Search..."
                   rightIcon={AiOutlineSearch}
                   className="lg:inline lg:w-60 lg:mr-6"
-                  style={{ outline: 'none', boxShadow: 'none' ,borderColor: isFocused ? '#5850ec' : 'transparent'}}
+                  style={{ outline: 'none', boxShadow: 'none' ,borderColor: isFocused ? '#5850ec' : ''}}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)} 
                 />

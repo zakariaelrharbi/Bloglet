@@ -14,6 +14,7 @@ export default function SignIn() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [isFocused, setIsFocused] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -105,7 +106,7 @@ export default function SignIn() {
                 name="email"
                 value={data.email}
                 onChange={handleOnChange}
-                className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
+                className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:outline-none focus:border-indigo-600 focus:ring-0"
                 placeholder="example@gmail.com"
               />
               <MdOutlineMail className="w-5 h-5 absolute right-4 top-2.5 opacity-60 " />
@@ -120,7 +121,7 @@ export default function SignIn() {
                 value={data.password}
                 type={showPassword ? 'text' : 'password'}
                 onChange={handleOnChange}
-                className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none"
+                className="bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:outline-none focus:border-indigo-600 focus:ring-0"
                 placeholder="Enter password"
               />
               {showPassword ? (
@@ -143,7 +144,7 @@ export default function SignIn() {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 shrink-0 text-blue-600 focus:ring-0 focus:outline-none focus:shadow-none focus:border-gray-400 focus:ring-offset-0 border-gray-400 rounded"
+                className="h-4 w-4 shrink-0 text-indigo-600 focus:ring-0 focus:outline-none focus:shadow-none focus:border-gray-400 focus:ring-offset-0 border-gray-400 rounded"
               />
               <label htmlFor="remember-me" className="ml-3 block text-sm">
                 Remember me 
@@ -152,7 +153,7 @@ export default function SignIn() {
             <div>
               <a
                 href="#"
-                className="text-blue-600 text-sm hover:underline"
+                className="text-indigo-600 text-sm hover:underline"
               >
                 Forgot Password?
               </a>
@@ -169,7 +170,7 @@ export default function SignIn() {
           <p className="text-sm mt-10 text-center">
             Don't have an account{" "}
             <Link to="/Sign-Up"
-              className="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap"
+              className="text-indigo-600 font-semibold hover:underline ml-1 whitespace-nowrap"
             >
               Register here
             </Link>

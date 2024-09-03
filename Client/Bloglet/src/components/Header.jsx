@@ -7,7 +7,7 @@ import { Avatar, Dropdown } from "flowbite-react";
 import { signOutSuccess } from '../redux/user/userSlice';
 import { toast } from 'sonner';
 import DarkModeButton from './DarkModeButton';
-import { MdLightMode } from "react-icons/md";
+import LightModeButton from './LightModeButton';
 import { toggleTheme } from '../redux/theme/themeSlice';
 
 
@@ -34,8 +34,6 @@ const Header = () => {
 
   // Access current theme from Redux store
   const currentTheme = useSelector((state) => state.theme.currentTheme);
-  const theme = currentTheme;
-  console.log('current theme', currentTheme);
 
   // Function to handle sign out
   const handleSignout = async () => {
@@ -119,12 +117,13 @@ const Header = () => {
 
             {/* Dark mode toggle */}
             <button onClick={() => dispatch(toggleTheme())}>
-              {currentTheme === 'light' ? (
-                <DarkModeButton />
+              {currentTheme === 'dark' ? (
+                <LightModeButton />
               ) : (
-                <MdLightMode />
+                <DarkModeButton />
               )}
             </button>
+
 
             {/* User menu */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">

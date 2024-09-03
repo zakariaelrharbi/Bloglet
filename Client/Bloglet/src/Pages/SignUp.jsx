@@ -127,7 +127,7 @@ export default function SignUp() {
                   name="username"
                   value={data.username}
                   onChange={handleOnChange}
-                  className={`bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none ${errors.username ? 'border-red-500' : ''}`}
+                  className={`bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:outline-none focus:border-indigo-600 focus:ring-0 ${errors.username ? 'border-red-500' : ''}`}
                   placeholder="Enter username"
                 />
                 <FaUserAlt className="w-4 h-4 absolute right-4 opacity-60" />
@@ -141,7 +141,7 @@ export default function SignUp() {
                   name="email"
                   value={data.email}
                   onChange={handleOnChange}
-                  className={`bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none ${errors.email ? 'border-red-500' : ''}`}
+                  className={`bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:outline-none focus:border-indigo-600 focus:ring-0 ${errors.email ? 'border-red-500' : ''}`}
                   placeholder="example@gmail.com"
                 />
                 <MdOutlineMail className="w-5 h-5 absolute right-4 opacity-60" />
@@ -156,7 +156,7 @@ export default function SignUp() {
                   value={data.password}
                   type={showPassword ? 'text' : 'password'}
                   onChange={handleOnChange}
-                  className={`bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md focus:border-cyan-500 focus:ring-cyan-500 focus:outline-none focus:ring-1 ${errors.password ? 'border-red-500' : ''}`}
+                  className={`bg-white border border-gray-300 w-full text-sm px-4 py-2.5 mb-1 rounded-md focus:outline-none focus:border-indigo-600 focus:ring-0 ${errors.password ? 'border-red-500' : ''}`}
                   placeholder="Enter password"
                 />
                 {showPassword ? (
@@ -189,7 +189,7 @@ export default function SignUp() {
           </div>
           <p className="text-sm mt-6 text-center">
             Already have an account?{" "}
-            <Link to='/sign-in' className="text-blue-600 font-semibold hover:underline ml-1">
+            <Link to='/sign-in' className="text-indigo-600 font-semibold hover:underline ml-1">
               Login here
             </Link>
           </p>

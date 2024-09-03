@@ -9,8 +9,11 @@ import { toast } from 'sonner';
 import DarkModeButton from './DarkModeButton';
 import { toggleTheme } from '../redux/theme/themeSlice';
 
+
 const Header = () => {
   const [navIsOpened, setNavIsOpened] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -95,12 +98,15 @@ const Header = () => {
 
             {/* Search form */}
             <div className="lg:flex lg:gap-4 lg:items-center">
-              <form className="flex items-center">
+              <form className="flex items-center ">
                 <TextInput
                   type="text"
                   placeholder="Search..."
                   rightIcon={AiOutlineSearch}
-                  className="lg:inline"
+                  className="lg:inline lg:w-60 lg:mr-6"
+                  style={{ outline: 'none', boxShadow: 'none' ,borderColor: isFocused ? '#5850ec' : 'transparent'}}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)} 
                 />
               </form>
             </div>

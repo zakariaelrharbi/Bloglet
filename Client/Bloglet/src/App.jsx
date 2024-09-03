@@ -15,6 +15,7 @@ import { Toaster } from 'sonner';
 import PrivateRoute from './components/PrivateRoute';
 import ScrollToTop from './components/ScrollToTop';
 
+
 const App = () => {
   const location = useLocation();
   

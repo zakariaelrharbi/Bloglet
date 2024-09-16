@@ -12,12 +12,18 @@ import { useSelector } from 'react-redux';
 
 const UpdatePost = () => {
   const [file, setFile] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    title: '', // Default empty values to avoid errors
+    category: '',
+    content: '',
+    image: '',
+  });
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null);
   const navigate = useNavigate();
   const { postId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
+  // Fetch the post details when the component mounts
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -26,7 +32,8 @@ const UpdatePost = () => {
         if (!res.ok) {
           throw new Error(data.message || 'Failed to fetch post');
         }
-        setFormData(data.post);
+        // Ensure the data exists and update the formData state
+        setFormData(data.post || { title: '', category: '', content: '', image: '' });
       } catch (error) {
         toast.error(error.message);
       }
@@ -34,14 +41,13 @@ const UpdatePost = () => {
     fetchPost();
   }, [postId]);
 
-  // Upload image to firebase storage
+  // Upload image to Firebase
   const handleUploadImage = async () => {
     if (!file) {
       toast.error('Please select an image to upload');
       return;
     }
 
-    // File validation: type and size
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     const maxSize = 5 * 1024 * 1024; // 5MB
 
@@ -55,7 +61,6 @@ const UpdatePost = () => {
       return;
     }
 
-    // Proceed with upload if file is valid
     const storage = getStorage(app);
     const fileName = new Date().getTime() + '-' + file.name;
     const storageRef = ref(storage, fileName);
@@ -85,7 +90,6 @@ const UpdatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate ReactQuill content
     if (!formData.content.trim()) {
       toast.error('Content cannot be empty');
       return;
@@ -125,12 +129,12 @@ const UpdatePost = () => {
             required
             id='title'
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            value={formData.title || ''}
+            value={formData.title || ''} // Ensure it has a default value
             className='flex-1'
           />
           <Select
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            value={formData.category || ''}
+            value={formData.category || ''} // Ensure it has a default value
           >
             <option value='' disabled>
               Select category
@@ -161,7 +165,7 @@ const UpdatePost = () => {
           required
           className='h-72 mb-12'
           onChange={(content) => setFormData({ ...formData, content: content })}
-          value={formData.content || ''}
+          value={formData.content || ''} // Ensure it has a default value
         />
         <Button type='submit' className='mb-12'>
           Update post

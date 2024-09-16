@@ -20,58 +20,33 @@ const UpdatePost = () => {
   });
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null);
   const navigate = useNavigate();
-  const { postId } = useParams(); // Ensure this postId is correct
+  const { postId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
-  // Debugging to check if postId is correctly received
-  useEffect(() => {
-    console.log('Post ID:', postId); // Ensure postId is correctly passed
-  }, [postId]);
-
+  // Fetch post data when the component mounts
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        console.log('Fetching post with postId:', postId); // Debugging postId
-  
         const res = await fetch(`http://localhost:5000/api/post/getAllPosts?postId=${postId}`);
         const data = await res.json();
-  
-        console.log('Fetched Post Data:', data); // Debugging to see the fetched post data
-  
         if (!res.ok) {
           throw new Error(data.message || 'Failed to fetch post');
         }
-  
-        const post = data.posts[0];
-  
-        // Debugging to check the content of post object
-        console.log('Post Details:', post);
-  
-        if (post) {
-          // Assigning values to formData with additional logging
-          setFormData({
-            title: post.title || '', // Check if title exists
-            category: post.category || '', // Check if category exists
-            content: post.content || '', // Check if content exists
-            image: post.image || '', // Check if image exists
-          });
-          
-          // Additional logs to verify correct assignment
-          console.log('Title:', post.title);
-          console.log('Category:', post.category);
-          console.log('Image URL:', post.image);
-        } else {
-          throw new Error('Post not found');
-        }
+        // Make sure formData gets the post data
+        setFormData({
+          title: data.posts[0].title || '',
+          category: data.posts[0].category || '',
+          content: data.posts[0].content || '',
+          image: data.posts[0].image || '',
+        });
       } catch (error) {
         toast.error(error.message);
       }
     };
     fetchPost();
   }, [postId]);
-  
-  
-  // Upload image to Firebase
+
+  // Upload Image
   const handleUploadImage = async () => {
     if (!file) {
       toast.error('Please select an image to upload');
@@ -116,7 +91,7 @@ const UpdatePost = () => {
     );
   };
 
-  // Handle form submission
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -153,18 +128,21 @@ const UpdatePost = () => {
       <h1 className='text-3xl text-center my-7 font-semibold'>Edit post</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
+          {/* Title Input */}
           <TextInput
             type='text'
             placeholder='Title'
             required
             id='title'
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            value={formData.title || ''} // Ensure it has a default value
+            value={formData.title || ''} // Ensure the title is displayed correctly
             className='flex-1'
           />
+
+          {/* Category Select */}
           <Select
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            value={formData.category || ''} // Ensure it has a default value
+            value={formData.category || ''} // Ensure the category is displayed correctly
           >
             <option value='' disabled>
               Select category
@@ -176,6 +154,8 @@ const UpdatePost = () => {
             <option value='entertainment'>Entertainment</option>
           </Select>
         </div>
+
+        {/* Image Upload & Display */}
         <div className='flex gap-4 items-center justify-between border-4 border-gray-300 border-dashed p-3'>
           <FileInput type='file' accept='image/*' onChange={(e) => setFile(e.target.files[0])} />
           <Button type='button' outline onClick={handleUploadImage} disabled={Boolean(imageFileUploadingProgress)}>
@@ -188,15 +168,21 @@ const UpdatePost = () => {
             )}
           </Button>
         </div>
+
+        {/* Displaying the uploaded image */}
         {formData.image && <img src={formData.image} alt='upload' className='w-full h-72 object-cover' />}
+
+        {/* Content (ReactQuill) */}
         <ReactQuill
           theme='snow'
           placeholder='Write something...'
           required
           className='h-72 mb-12'
           onChange={(content) => setFormData({ ...formData, content: content })}
-          value={formData.content || ''} // Ensure it has a default value
+          value={formData.content || ''}
         />
+
+        {/* Submit Button */}
         <Button type='submit' className='mb-12'>
           Update post
         </Button>

@@ -20,27 +20,57 @@ const UpdatePost = () => {
   });
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null);
   const navigate = useNavigate();
-  const { postId } = useParams();
+  const { postId } = useParams(); // Ensure this postId is correct
   const { currentUser } = useSelector((state) => state.user);
 
-  // Fetch the post details when the component mounts
+  // Debugging to check if postId is correctly received
+  useEffect(() => {
+    console.log('Post ID:', postId); // Ensure postId is correctly passed
+  }, [postId]);
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        console.log('Fetching post with postId:', postId); // Debugging postId
+  
         const res = await fetch(`http://localhost:5000/api/post/getAllPosts?postId=${postId}`);
         const data = await res.json();
+  
+        console.log('Fetched Post Data:', data); // Debugging to see the fetched post data
+  
         if (!res.ok) {
           throw new Error(data.message || 'Failed to fetch post');
         }
-        // Ensure the data exists and update the formData state
-        setFormData(data.post || { title: '', category: '', content: '', image: '' });
+  
+        const post = data.posts[0];
+  
+        // Debugging to check the content of post object
+        console.log('Post Details:', post);
+  
+        if (post) {
+          // Assigning values to formData with additional logging
+          setFormData({
+            title: post.title || '', // Check if title exists
+            category: post.category || '', // Check if category exists
+            content: post.content || '', // Check if content exists
+            image: post.image || '', // Check if image exists
+          });
+          
+          // Additional logs to verify correct assignment
+          console.log('Title:', post.title);
+          console.log('Category:', post.category);
+          console.log('Image URL:', post.image);
+        } else {
+          throw new Error('Post not found');
+        }
       } catch (error) {
         toast.error(error.message);
       }
     };
     fetchPost();
   }, [postId]);
-
+  
+  
   // Upload image to Firebase
   const handleUploadImage = async () => {
     if (!file) {

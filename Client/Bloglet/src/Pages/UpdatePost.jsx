@@ -13,7 +13,8 @@ import { useSelector } from 'react-redux';
 const UpdatePost = () => {
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
-    title: '', // Default empty values to avoid errors
+    _id: '', // Ensure post ID is tracked
+    title: '',
     category: '',
     content: '',
     image: '',
@@ -23,7 +24,6 @@ const UpdatePost = () => {
   const { postId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
-  // Fetch post data when the component mounts
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -32,8 +32,8 @@ const UpdatePost = () => {
         if (!res.ok) {
           throw new Error(data.message || 'Failed to fetch post');
         }
-        // Make sure formData gets the post data
         setFormData({
+          _id: data.posts[0]._id || '',
           title: data.posts[0].title || '',
           category: data.posts[0].category || '',
           content: data.posts[0].content || '',
@@ -46,7 +46,6 @@ const UpdatePost = () => {
     fetchPost();
   }, [postId]);
 
-  // Upload Image
   const handleUploadImage = async () => {
     if (!file) {
       toast.error('Please select an image to upload');
@@ -54,7 +53,7 @@ const UpdatePost = () => {
     }
 
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
 
     if (!allowedTypes.includes(file.type)) {
       toast.error('Only JPG, JPEG, and PNG files are allowed');
@@ -91,12 +90,11 @@ const UpdatePost = () => {
     );
   };
 
-  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.content.trim()) {
-      toast.error('Content cannot be empty');
+    if (!formData.title.trim() || !formData.category.trim() || !formData.content.trim()) {
+      toast.error('Please fill in all the fields');
       return;
     }
 
@@ -116,7 +114,7 @@ const UpdatePost = () => {
       }
       toast.success('Post updated successfully');
       setTimeout(() => {
-        navigate('/dashboard?tab=posts');
+        navigate(`/post/${data.slug || formData._id}`);
       }, 1500);
     } catch (error) {
       toast.error('Failed to update post');
@@ -128,25 +126,20 @@ const UpdatePost = () => {
       <h1 className='text-3xl text-center my-7 font-semibold'>Edit post</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
-          {/* Title Input */}
           <TextInput
             type='text'
             placeholder='Title'
             required
             id='title'
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            value={formData.title || ''} // Ensure the title is displayed correctly
+            value={formData.title || ''}
             className='flex-1'
           />
-
-          {/* Category Select */}
           <Select
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            value={formData.category || ''} // Ensure the category is displayed correctly
+            value={formData.category || ''}
           >
-            <option value='' disabled>
-              Select category
-            </option>
+            <option value='' disabled>Select category</option>
             <option value='tech'>Tech</option>
             <option value='lifestyle'>Lifestyle</option>
             <option value='health'>Health</option>
@@ -155,7 +148,6 @@ const UpdatePost = () => {
           </Select>
         </div>
 
-        {/* Image Upload & Display */}
         <div className='flex gap-4 items-center justify-between border-4 border-gray-300 border-dashed p-3'>
           <FileInput type='file' accept='image/*' onChange={(e) => setFile(e.target.files[0])} />
           <Button type='button' outline onClick={handleUploadImage} disabled={Boolean(imageFileUploadingProgress)}>
@@ -163,16 +155,12 @@ const UpdatePost = () => {
               <div style={{ width: '64px', height: '64px' }}>
                 <CircularProgressbar value={imageFileUploadingProgress} text={`${imageFileUploadingProgress || 0}%`} />
               </div>
-            ) : (
-              'Upload Image'
-            )}
+            ) : 'Upload Image'}
           </Button>
         </div>
 
-        {/* Displaying the uploaded image */}
         {formData.image && <img src={formData.image} alt='upload' className='w-full h-72 object-cover' />}
 
-        {/* Content (ReactQuill) */}
         <ReactQuill
           theme='snow'
           placeholder='Write something...'
@@ -182,7 +170,6 @@ const UpdatePost = () => {
           value={formData.content || ''}
         />
 
-        {/* Submit Button */}
         <Button type='submit' className='mb-12'>
           Update post
         </Button>

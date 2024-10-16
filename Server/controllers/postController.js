@@ -91,7 +91,15 @@ const getPosts = async (req, res) => {
 };
 
 
-const updatePost = async (req, res) => {};
+const updatePost = async (req, res) => {
+    if(!req.user.isAdmin && req.user.id !== req.params.userId) {
+        return res.status(403).json({
+            message: 'You are not authorized to perform this action',
+            error: true,
+            success: false
+        });
+    }
+};
 
 const deletePost = async (req, res) => {
     if(req.user.id !== req.params.userId) {

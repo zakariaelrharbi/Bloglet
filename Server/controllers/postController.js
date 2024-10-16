@@ -92,15 +92,29 @@ const getPosts = async (req, res) => {
 
 
 const updatePost = async (req, res) => {
-    if(!req.user.isAdmin && req.user.id !== req.params.userId) {
+    // Check if the user is authorized to update the post
+    if (!req.user.isAdmin && req.user.id !== req.params.userId) {
         return res.status(403).json({
             message: 'You are not authorized to perform this action',
             error: true,
-            success: false
+            success: false,
         });
     }
+
     try {
-        const updatePost = await Post.findByIdAndUpdate(req.params.postId,
+        // Check if the post exists
+        const post = await Post.findById(req.params.postId);
+        if (!post) {
+            return res.status(404).json({
+                message: 'Post not found',
+                error: true,
+                success: false,
+            });
+        }
+
+        // Update the post
+        const updatedPost = await Post.findByIdAndUpdate(
+            req.params.postId,
             {
                 $set: {
                     title: req.body.title,
@@ -108,21 +122,26 @@ const updatePost = async (req, res) => {
                     category: req.body.category,
                     image: req.body.image,
                 },
-                }, {new: true})
-                return res.status(200).json({
-                    post: updatePost,
-                    message: 'Post updated successfully',
-                    error: false,
-                    success: true
-                });
+            },
+            { new: true }
+        );
+
+        return res.status(200).json({
+            post: updatedPost,
+            message: 'Post updated successfully',
+            error: false,
+            success: true,
+        });
     } catch (error) {
+        console.error('Error updating post:', error); // Log the error for debugging
         return res.status(500).json({
-            message: error.message,
+            message: 'Failed to update post',
             error: true,
-            success: false
+            success: false,
         });
     }
 };
+
 
 const deletePost = async (req, res) => {
     if(req.user.id !== req.params.userId) {

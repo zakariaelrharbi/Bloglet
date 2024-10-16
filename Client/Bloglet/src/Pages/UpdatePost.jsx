@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 const UpdatePost = () => {
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
-    title: '',
+    title: '', // Default empty values to avoid errors
     category: '',
     content: '',
     image: '',
@@ -32,13 +32,12 @@ const UpdatePost = () => {
         if (!res.ok) {
           throw new Error(data.message || 'Failed to fetch post');
         }
-        // Set formData with the fetched post data
+        // Make sure formData gets the post data
         setFormData({
           title: data.posts[0].title || '',
           category: data.posts[0].category || '',
           content: data.posts[0].content || '',
           image: data.posts[0].image || '',
-          _id: data.posts[0]._id || postId, // Ensure _id is set correctly
         });
       } catch (error) {
         toast.error(error.message);
@@ -96,14 +95,13 @@ const UpdatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation: check required fields
-    if (!formData.title.trim() || !formData.category || !formData.content.trim()) {
-      toast.error('Please fill in all required fields');
+    if (!formData.content.trim()) {
+      toast.error('Content cannot be empty');
       return;
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/post/update/${postId}/${currentUser._id}`, {
+      const res = await fetch(`http://localhost:5000/api/post/update/${formData._id}/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -127,7 +125,7 @@ const UpdatePost = () => {
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-3xl text-center my-7 font-semibold'>Edit Post</h1>
+      <h1 className='text-3xl text-center my-7 font-semibold'>Edit post</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           {/* Title Input */}
@@ -137,14 +135,14 @@ const UpdatePost = () => {
             required
             id='title'
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            value={formData.title || ''}
+            value={formData.title || ''} // Ensure the title is displayed correctly
             className='flex-1'
           />
 
           {/* Category Select */}
           <Select
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            value={formData.category || ''}
+            value={formData.category || ''} // Ensure the category is displayed correctly
           >
             <option value='' disabled>
               Select category
@@ -180,13 +178,13 @@ const UpdatePost = () => {
           placeholder='Write something...'
           required
           className='h-72 mb-12'
-          onChange={(content) => setFormData({ ...formData, content })}
+          onChange={(content) => setFormData({ ...formData, content: content })}
           value={formData.content || ''}
         />
 
         {/* Submit Button */}
         <Button type='submit' className='mb-12'>
-          Update Post
+          Update post
         </Button>
       </form>
     </div>

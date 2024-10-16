@@ -108,10 +108,19 @@ const updatePost = async (req, res) => {
                     category: req.body.category,
                     image: req.body.image,
                 },
-                }
-            );
+                }, {new: true})
+                return res.status(200).json({
+                    post: updatePost,
+                    message: 'Post updated successfully',
+                    error: false,
+                    success: true
+                });
     } catch (error) {
-        
+        return res.status(500).json({
+            message: error.message,
+            error: true,
+            success: false
+        });
     }
 };
 

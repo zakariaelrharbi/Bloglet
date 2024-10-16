@@ -99,6 +99,20 @@ const updatePost = async (req, res) => {
             success: false
         });
     }
+    try {
+        const updatePost = await Post.findByIdAndUpdate(req.params.postId,
+            {
+                $set: {
+                    title: req.body.title,
+                    content: req.body.content,
+                    category: req.body.category,
+                    image: req.body.image,
+                },
+                }
+            );
+    } catch (error) {
+        
+    }
 };
 
 const deletePost = async (req, res) => {

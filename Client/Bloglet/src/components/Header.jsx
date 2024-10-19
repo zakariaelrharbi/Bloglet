@@ -47,6 +47,7 @@ const Header = () => {
       } else {
         toast.success(dataRes.message);
         dispatch(signOutSuccess());
+        navigate('/');
       }
     } catch (error) {
       toast.error('An error occurred. Please try again');

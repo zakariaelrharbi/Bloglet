@@ -11,7 +11,7 @@ import Contact from './Pages/Contact';
 import Footer from './components/Footer';
 import CreatePost from './Pages/CreatePosts';
 import UpdatePost from './Pages/UpdatePost';
-import PostPage from './Pages/PostPage';
+import PostsPage from './Pages/PostsPage';
 import { Toaster } from 'sonner';
 import PrivateRoute from './components/PrivateRoute';
 import ScrollToTop from './components/ScrollToTop';
@@ -35,7 +35,7 @@ const App = () => {
         <Route path='/contact' element={<Contact />} />
         <Route path='/create-post' element={<CreatePost />} />
         <Route path='/update-post/:postId' element={<UpdatePost />} />
-        <Route path='/post/:postSlug' element={<PostPage/>} />
+        <Route path='/post/:postSlug' element={<PostsPage />} />
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route> 

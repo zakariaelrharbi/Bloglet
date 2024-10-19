@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-
-const PostPage = () => {
+const PostsPage = () => {
     const { postSlug } = useParams();
     useEffect(() => {
         console.log(postSlug);
@@ -14,4 +13,7 @@ const PostPage = () => {
   )
 }
 
-export default PostPage
+export default PostsPage
+
+
+

@@ -4,7 +4,14 @@ import { useParams } from 'react-router-dom'
 const PostsPage = () => {
     const { postSlug } = useParams();
     useEffect(() => {
-        console.log(postSlug);
+        const fetchPost = async () => {
+            try {
+                
+            } catch (error) {
+                
+            }
+        };
+        fetchPost();
     }, [postSlug]);
   return (
     <div>

@@ -85,10 +85,11 @@ const UpdatePost = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           toast.success('Image uploaded successfully');
           setImageFileUploadingProgress(null);
+          setFile(null);  // Reset file input
           setFormData({ ...formData, image: downloadURL });
         });
       }
-    );
+    );    
   };
 
   const handleSubmit = async (e) => {

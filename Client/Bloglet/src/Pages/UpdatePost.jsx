@@ -27,17 +27,17 @@ const UpdatePost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/post/getAllPosts?postId=${postId}`);
+        const res = await fetch(`http://localhost:5000/api/post/${postId}`);
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data.message || 'Failed to fetch post');
         }
         setFormData({
-          _id: data.posts[0]._id || '',
-          title: data.posts[0].title || '',
-          category: data.posts[0].category || '',
-          content: data.posts[0].content || '',
-          image: data.posts[0].image || '',
+          _id: data._id || '',
+          title: data.title || '',
+          category: data.category || '',
+          content: data.content || '',
+          image: data.image || '',
         });
       } catch (error) {
         toast.error(error.message);
@@ -45,6 +45,7 @@ const UpdatePost = () => {
     };
     fetchPost();
   }, [postId]);
+  
 
   const handleUploadImage = async () => {
     if (!file) {

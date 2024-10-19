@@ -93,20 +93,20 @@ const getPosts = async (req, res) => {
 
 const updatePost = async (req, res) => {
     // Check if the user is authorized to update the post
-    if (!req.user.isAdmin && req.user.id !== req.params.userId) {
-        return res.status(403).json({
-            message: 'You are not authorized to perform this action',
-            error: true,
-            success: false,
-        });
-    }
-
     try {
-        // Check if the post exists
         const post = await Post.findById(req.params.postId);
         if (!post) {
             return res.status(404).json({
                 message: 'Post not found',
+                error: true,
+                success: false,
+            });
+        }
+
+        // Ensure the current user is an admin or the owner of the post
+        if (!req.user.isAdmin && req.user.id !== post.userId.toString()) {
+            return res.status(403).json({
+                message: 'You are not authorized to perform this action',
                 error: true,
                 success: false,
             });
@@ -141,6 +141,7 @@ const updatePost = async (req, res) => {
         });
     }
 };
+
 
 
 const deletePost = async (req, res) => {

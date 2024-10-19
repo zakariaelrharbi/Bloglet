@@ -24,7 +24,7 @@ const PostsPage = () => {
 
     return (
         <div>
-            <main className="mt-10">
+            <main className="pt-10 dark:bg-gray-800">
                 <div
                     className="mb-4 md:mb-0 w-full max-w-screen-md mx-auto relative"
                     style={{ height: "24em" }}

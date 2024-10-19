@@ -93,14 +93,14 @@ const UpdatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!formData.title.trim() || !formData.category.trim() || !formData.content.trim()) {
       toast.error('Please fill in all the fields');
       return;
     }
-
+  
     try {
-      const res = await fetch(`http://localhost:5000/api/post/update/${formData._id}/${currentUser._id}`, {
+      const res = await fetch(`http://localhost:5000/api/post/update/${formData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -121,6 +121,7 @@ const UpdatePost = () => {
       toast.error('Failed to update post');
     }
   };
+  
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>

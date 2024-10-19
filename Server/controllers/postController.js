@@ -60,7 +60,7 @@ const getPosts = async (req, res) => {
             .sort({ createdAt: sortDirection })
             .skip(startIndex)
             .limit(limit)
-            .populate('author', 'name'); // Populate author field with 'name' field
+            .populate('author', 'name picture'); // Populate both name and picture fields of the author
 
         const totalPost = await Post.countDocuments(query);
         const now = new Date();

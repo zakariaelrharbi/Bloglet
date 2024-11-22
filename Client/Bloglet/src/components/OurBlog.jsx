@@ -41,11 +41,14 @@ const OurBlog = () => {
                   key={post._id}
                   className="bg-white cursor-pointer rounded overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative top-0 hover:-top-2 transition-all duration-300"
                 >
-                  <img
+                  <Link to={`/post/${post.slug}`}>
+                      <img src={post.image || 'https://via.placeholder.com/400x300'} alt={post.title} className='w-full h-60 object-cover' />
+                    </Link>
+                  {/* <img
                     src={post.image || 'https://via.placeholder.com/400x300'}
                     alt={post.title}
                     className="w-full h-60 object-cover"
-                  />
+                  /> */}
                   <div className="p-6">
                     <span className="text-sm block text-gray-400 mb-2">
                       {new Date(post.createdAt).toLocaleDateString()} | BY {post.author || 'Unknown'}
@@ -57,7 +60,9 @@ const OurBlog = () => {
                       overflow: 'hidden',
                       textOverflow: 'ellipsis'
                     }}>
+                      <Link to={`/post/${post.slug}`} className="hover:underline">
                       {post.title}
+                    </Link>
                     </h3>
                     <hr className="my-6" />
                     <p

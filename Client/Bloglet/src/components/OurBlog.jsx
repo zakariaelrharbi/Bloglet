@@ -47,8 +47,7 @@ const OurBlog = () => {
                   {/* <img
                     src={post.image || 'https://via.placeholder.com/400x300'}
                     alt={post.title}
-                    className="w-full h-60 object-cover"
-                  /> */}
+                    
                   <div className="p-6">
                     <span className="text-sm block text-gray-400 mb-2">
                       {new Date(post.createdAt).toLocaleDateString()} | BY {post.author || 'Unknown'}

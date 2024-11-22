@@ -70,14 +70,14 @@ const OurBlog = () => {
                 </div>
               ))}
             </div>
-            <div className='text-center p-6'>
+            {/* <div className='text-center p-6'>
               <Link
                 to={'/search'}
                 className="text-xl text-teal-500 hover:underline"
               >
                 View all posts
               </Link>
-            </div>
+            </div> */}
           </>
         )}
       </div>

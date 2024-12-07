@@ -117,14 +117,13 @@ const Header = () => {
             </div>
 
             {/* Dark mode toggle */}
-            <button onClick={() => dispatch(toggleTheme())}>
+            <div onClick={() => dispatch(toggleTheme())} role="button" tabIndex={0} className="cursor-pointer">
               {currentTheme === 'dark' ? (
                 <LightModeButton />
               ) : (
                 <DarkModeButton />
               )}
-            </button>
-
+            </div>
 
             {/* User menu */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:min-w-max mt-10 lg:mt-0">

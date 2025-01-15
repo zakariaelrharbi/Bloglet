@@ -14,8 +14,6 @@ export default function SignIn() {
     password: "",
   });
   const [errors, setErrors] = useState({});
-  const [isFocused, setIsFocused] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

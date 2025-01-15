@@ -1,25 +1,24 @@
-const flowbite = require("flowbite-react/tailwind");
+import flowbite from "flowbite-react/tailwind";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    flowbite.content(),
+    "./node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
       fontFamily: {
         Roboto: ['"Roboto"', "sans-serif"],
-        // Add more custom font families as needed
       },
     },
   },
   plugins: [
-    flowbite.plugin(),
-    require('tailwind-scrollbar'),
+    require("flowbite/plugin"),
+    require("tailwind-scrollbar"),
   ],
   corePlugins: {
-    preflight: true, // Enable preflight
+    preflight: true,
   },
 };

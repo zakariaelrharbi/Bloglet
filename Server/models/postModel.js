@@ -1,35 +1,38 @@
-const mongoose = require('mongoose');
-const { use } = require('../routes/postRoutes');
+const mongoose = require("mongoose");
+const { use } = require("../routes/postRoutes");
 
-const postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema(
+  {
     userId: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     title: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     category: {
-        type: String,
-        default: 'uncategorized',
+      type: String,
+      default: "uncategorized",
     },
     content: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     slug: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     image: {
-        type: String,
-        default: 'https://dinarakasko.com/image/cache/catalog/basel-demo/blog-1140x700.png',
+      type: String,
+      default: null,
     },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-}, { timestamps: true });
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  },
+  { timestamps: true },
+);
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model("Post", postSchema);
 module.exports = Post;

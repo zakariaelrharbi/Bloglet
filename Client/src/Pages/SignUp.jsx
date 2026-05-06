@@ -4,7 +4,7 @@ import { FaUserAlt, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { signUp } from "../api/authApi";
+import { signUp } from "../features/auth/api/authApi.js";
 
 export default function SignUp() {
   const navigate = useNavigate();

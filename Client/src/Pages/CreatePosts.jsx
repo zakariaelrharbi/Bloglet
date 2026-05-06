@@ -1,12 +1,11 @@
 import { FileInput } from "flowbite-react";
-import React, { useState, useRef } from "react";
-import { CategorySelect } from "../components/CategorySelect";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import React, { useState } from "react";
+import { CategorySelect } from "../features/post/components/CategorySelect";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { createPost } from "../features/post/api/postApi";
 
 const CreatePost = () => {
   const [file, setFile] = useState(null);
@@ -14,7 +13,6 @@ const CreatePost = () => {
     useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
-  const quillRef = useRef(null);
   const [formData, setFormData] = useState({
     title: "",
     category: "uncategorized",
@@ -48,35 +46,17 @@ const CreatePost = () => {
     }
   };
 
-  // Upload image to server
+  // Preview image locally
   const handleUploadImage = async () => {
-    try {
-      if (!file) {
-        toast.error("Please select an image to upload");
-        return;
-      }
-
-      const formDataToSend = new FormData();
-      formDataToSend.append("image", file);
-
-      setImageFileUploadingProgress(0);
-
-      const res = await fetch("http://localhost:5000/api/post/createPost", {
-        method: "POST",
-        body: formDataToSend,
-        credentials: "include",
-      });
-
-      // This will only work if we're just uploading, but for full post creation
-      // we'll handle the upload as part of the form submission
-      // For now, let's just simulate progress and use the image in form data
-      setImageFileUploadingProgress(100);
-      toast.success("Image selected and ready to upload");
-      setImageFileUploadingProgress(null);
-    } catch (error) {
-      toast.error("Failed to upload image");
-      setImageFileUploadingProgress(null);
+    if (!file) {
+      toast.error("Please select an image to upload");
+      return;
     }
+
+    // For preview, just set the image preview without uploading to server
+    setImagePreview(URL.createObjectURL(file));
+    toast.success("Image selected and ready to upload");
+    setImageFileUploadingProgress(null);
   };
 
   // Handle form submission
@@ -95,27 +75,13 @@ const CreatePost = () => {
         formDataToSend.append("image", file);
       }
 
-      const res = await fetch("http://localhost:5000/api/post/createPost", {
-        method: "POST",
-        credentials: "include",
-        body: formDataToSend,
-        // Don't set Content-Type header - browser will set it automatically for FormData
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
-        return;
-      }
-
-      if (res.ok) {
-        toast.success("Post created successfully");
-        setTimeout(() => {
-          navigate("/dashboard?tab=posts");
-        }, 1500);
-      }
+      const data = await createPost(formDataToSend);
+      toast.success("Post created successfully");
+      setTimeout(() => {
+        navigate("/dashboard?tab=posts");
+      }, 1500);
     } catch (error) {
-      toast.error("Failed to create post");
+      toast.error(error.message || "Failed to create post");
     }
   };
 
@@ -167,14 +133,13 @@ const CreatePost = () => {
             className="w-full h-72 object-cover"
           />
         )}
-        <ReactQuill
-          ref={quillRef}
-          theme="snow"
+        <textarea
+          name="content"
           placeholder="Write something..."
           required
-          className="h-72 mb-12 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
           value={formData.content}
-          onChange={handleContentChange}
+          onChange={(e) => handleContentChange(e.target.value)}
+          className="w-full min-h-[18rem] mb-12 px-4 py-3 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-brand-navy outline-none"
         />
         <button
           type="submit"

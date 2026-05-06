@@ -11,17 +11,18 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
-} from "../redux/user/userSlice"; // Importing the updateStart action from the userSlice
+} from "../redux/userSlice.js"; // Importing the updateStart action from the userSlice
 import { toast } from "sonner"; // Importing the toast function from Sonner for displaying notifications
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { signOutSuccess } from "../redux/user/userSlice";
-import { signOut } from "../api/authApi";
+import { signOutSuccess } from "../../auth/redux/authSlice.js";
+import { signOut } from "../../auth/api/authApi.js";
+import { updateUser, deleteUser } from "../api/userApi.js";
 import { Link } from "react-router-dom"; // Importing the Link component from React Router
-import { getImageUrl } from "../utils/imageHelper";
+import { getImageUrl } from "../../../utils/helpers/imageHelper";
 
 const DashProfile = () => {
   // Accessing currentUser from the Redux store
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch(); // Accessing the dispatch function from the useDispatch hook
   // State for storing the selected image file
   const [uploadImage, setUploadImage] = useState(null);
@@ -149,27 +150,12 @@ const DashProfile = () => {
         formDataToSend.append("profilePicture", uploadImage);
       }
 
-      const res = await fetch(
-        `http://localhost:5000/api/user/update/${currentUser._id}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: formDataToSend,
-          // Don't set Content-Type header - browser will set it automatically for FormData
-        },
-      );
-
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(updateFailure(data.error));
-        toast.error(data.error);
-      } else {
-        dispatch(updateSuccess(data.user)); // Ensure this is the correct structure
-        toast.success(data.message);
-      }
+      const data = await updateUser(currentUser._id, formDataToSend);
+      dispatch(updateSuccess(data.user)); // Ensure this is the correct structure
+      toast.success(data.message);
     } catch (error) {
-      dispatch(updateFailure(error.message));
-      toast.error(error.message);
+      dispatch(updateFailure(error.message || error));
+      toast.error(error.message || error);
     }
   };
 
@@ -178,24 +164,12 @@ const DashProfile = () => {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(
-        `http://localhost:5000/api/user/delete/${currentUser._id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(deleteUserFailure(data.error));
-        toast.error(data.error);
-      } else {
-        dispatch(deleteUserSuccess());
-        toast.success(data.message);
-      }
+      const data = await deleteUser(currentUser._id);
+      dispatch(deleteUserSuccess());
+      toast.success(data.message);
     } catch (error) {
-      dispatch(deleteUserFailure(error.message));
-      toast.error(error.message);
+      dispatch(deleteUserFailure(error.message || error));
+      toast.error(error.message || error);
     }
   };
 

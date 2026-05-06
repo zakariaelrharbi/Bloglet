@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { PostCard } from "../components/PostCard";
-import { SidebarPostCard } from "../components/SidebarPostCard";
+import { PostCard } from "../features/post/components/PostCard";
+import { SidebarPostCard } from "../features/post/components/SidebarPostCard";
 import { posts } from "../data/posts";
 import { motion } from "framer-motion";
 import HeroSection from "../components/HeroSection";

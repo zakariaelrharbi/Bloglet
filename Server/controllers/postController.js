@@ -3,8 +3,31 @@ const fs = require("fs");
 
 const Post = require("../models/postModel");
 
+const generateUniqueSlug = async (title) => {
+  const baseSlug = title
+    .toLowerCase()
+    .split(" ")
+    .join("-")
+    .replace(/[^a-zA-Z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  let slug = baseSlug || "post";
+  let suffix = 0;
+
+  while (await Post.exists({ slug })) {
+    suffix += 1;
+    slug = `${baseSlug}-${suffix}`;
+  }
+
+  return slug;
+};
+
 const createPost = async (req, res) => {
-  const { title, content } = req.body;
+  const title = req.body.title?.trim();
+  const content = req.body.content;
+  const category = req.body.category || "uncategorized";
+
   if (!title || !content) {
     return res.status(400).json({
       message: "Please fill in all fields",
@@ -12,24 +35,23 @@ const createPost = async (req, res) => {
       success: false,
     });
   }
-  const slug = req.body.title
-    .toLowerCase()
-    .split(" ")
-    .join("-")
-    .replace(/[^a-zA-Z0-9-]/g, "");
 
-  // Handle image file if uploaded
-  let imagePath = req.body.image || null;
+  const slug = await generateUniqueSlug(title);
+
+  let imagePath = null;
   if (req.file) {
     imagePath = `uploads/${req.file.filename}`;
   }
 
   const newPost = new Post({
-    ...req.body,
+    title,
+    content,
+    category,
     image: imagePath,
     slug,
     userId: req.user.id,
   });
+
   try {
     const post = await newPost.save();
     return res.status(201).json({
@@ -39,9 +61,17 @@ const createPost = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    // Delete uploaded file if post creation fails
-    if (req.file) {
+    if (req.file && req.file.path && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
+    }
+    if (error.code === 11000) {
+      const duplicatedField =
+        Object.keys(error.keyValue || {}).join(", ") || "field";
+      return res.status(400).json({
+        message: `Duplicate ${duplicatedField} already exists`,
+        error: true,
+        success: false,
+      });
     }
     return res.status(500).json({
       message: error.message,
@@ -140,20 +170,28 @@ const updatePost = async (req, res) => {
       imagePath = req.body.image;
     }
 
+    const updatePayload = {};
+    if (typeof req.body.title === "string" && req.body.title.trim()) {
+      updatePayload.title = req.body.title.trim();
+    }
+    if (typeof req.body.content === "string") {
+      updatePayload.content = req.body.content;
+    }
+    if (typeof req.body.category === "string") {
+      updatePayload.category = req.body.category;
+    }
+    updatePayload.image = imagePath;
+
+    if (
+      updatePayload.title &&
+      updatePayload.title !== post.title
+    ) {
+      updatePayload.slug = await generateUniqueSlug(updatePayload.title);
+    }
+
     const updatedPost = await Post.findByIdAndUpdate(
       req.params.postId,
-      {
-        ...req.body,
-        image: imagePath,
-        // Update slug if title changed
-        ...(req.body.title && {
-          slug: req.body.title
-            .toLowerCase()
-            .split(" ")
-            .join("-")
-            .replace(/[^a-zA-Z0-9-]/g, ""),
-        }),
-      },
+      updatePayload,
       { new: true },
     );
 
@@ -164,9 +202,17 @@ const updatePost = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    // Delete uploaded file if update fails
-    if (req.file) {
+    if (req.file && req.file.path && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
+    }
+    if (error.code === 11000) {
+      const duplicatedField =
+        Object.keys(error.keyValue || {}).join(", ") || "field";
+      return res.status(400).json({
+        message: `Duplicate ${duplicatedField} already exists`,
+        error: true,
+        success: false,
+      });
     }
     return res.status(500).json({
       message: error.message,
@@ -187,8 +233,15 @@ const deletePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.postId);
 
-    // Delete the image file if it exists and is a local file
-    if (post && post.image && post.image.startsWith("uploads/")) {
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (post.image && post.image.startsWith("uploads/")) {
       const imagePath = path.join(__dirname, "../" + post.image);
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);

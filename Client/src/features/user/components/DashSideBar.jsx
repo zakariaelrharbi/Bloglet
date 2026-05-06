@@ -5,14 +5,14 @@ import { PiSignOutLight } from "react-icons/pi";
 import { Link, useLocation } from "react-router-dom";
 import { HiDocumentText } from "react-icons/hi2";
 import { MdNoteAdd } from "react-icons/md";
-import { signOutSuccess } from "../redux/user/userSlice";
-import { signOut } from "../api/authApi";
+import { signOutSuccess } from "../../auth/redux/authSlice.js";
+import { signOut } from "../../auth/api/authApi";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const DashSideBar = () => {
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch(); // Accessing the dispatch function from the useDispatch hook
 
   const location = useLocation();

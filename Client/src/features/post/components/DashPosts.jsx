@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { getImageUrl } from "../utils/imageHelper";
+import { getImageUrl } from "../../../utils/helpers/imageHelper";
+import { getPosts, deletePost } from "../api/postApi.js";
 const DashPosts = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.auth);
   const [userPosts, setUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const navigate = useNavigate();
@@ -15,15 +16,10 @@ const DashPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/post/getAllPosts?userId=${currentUser._id}`,
-        );
-        const data = await res.json();
-        if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
-            setShowMore(false);
-          }
+        const data = await getPosts({ userId: currentUser._id });
+        setUserPosts(data.posts);
+        if (data.posts.length < 9) {
+          setShowMore(false);
         }
       } catch (error) {
         toast.error("An error occurred while fetching posts");
@@ -36,15 +32,10 @@ const DashPosts = () => {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/post/getAllPosts?userId=${currentUser._id}&startIndex=${startIndex}`,
-      );
-      const data = await res.json();
-      if (res.ok) {
-        setUserPosts((prevPosts) => [...prevPosts, ...data.posts]);
-        if (data.posts.length < 9) {
-          setShowMore(false);
-        }
+      const data = await getPosts({ userId: currentUser._id, startIndex });
+      setUserPosts((prevPosts) => [...prevPosts, ...data.posts]);
+      if (data.posts.length < 9) {
+        setShowMore(false);
       }
     } catch (error) {
       toast.error("An error occurred while fetching posts");
@@ -55,26 +46,12 @@ const DashPosts = () => {
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/post/deletePost/${postIdToDelete}/${currentUser._id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        },
+      const data = await deletePost(postIdToDelete, currentUser._id);
+      toast.success(data.message);
+      setUserPosts((prevPosts) =>
+        prevPosts.filter((post) => post._id !== postIdToDelete),
       );
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
-      } else {
-        toast.success(data.message);
-        setUserPosts((prevPosts) =>
-          prevPosts.filter((post) => post._id !== postIdToDelete),
-        );
-        navigate("/dashboard?tab=posts");
-      }
+      navigate("/dashboard?tab=posts");
     } catch (error) {
       toast.error("An error occurred while deleting post");
     }

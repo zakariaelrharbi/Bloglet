@@ -7,8 +7,8 @@ import {
   signInStart,
   signInSuccess,
   signInFailure,
-} from "../redux/user/userSlice";
-import { signIn } from "../api/authApi";
+} from "../features/auth/redux/authSlice.js";
+import { signIn } from "../features/auth/api/authApi.js";
 import { useDispatch } from "react-redux";
 
 export default function SignIn() {

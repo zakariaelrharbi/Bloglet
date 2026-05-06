@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify"; // Import dompurify
 import { useSelector } from "react-redux";
-import { getImageUrl } from "../utils/imageHelper";
+import { getImageUrl } from "../utils/helpers/imageHelper";
 
 const OurBlog = () => {
   const [posts, setPosts] = useState([]);

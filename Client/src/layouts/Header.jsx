@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Avatar, Dropdown } from "flowbite-react";
-import { signOutSuccess } from "../redux/user/userSlice";
-import { signOut } from "../api/authApi";
+import { signOutSuccess } from "../features/auth/redux/authSlice.js";
+import { signOut } from "../features/auth/api/authApi.js";
 import { toast } from "sonner";
-import { toggleDarkMode } from "../redux/theme/themeSlice";
+import { toggleDarkMode } from "../redux/theme/themeSlice.js";
 import { Search, Moon, Sun, Menu, X } from "lucide-react";
-import { getImageUrl } from "../utils/imageHelper";
+import { getImageUrl } from "../utils/helpers/imageHelper";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   // Access currentUser from Redux store
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const user = currentUser;
 
   // Function to handle sign out

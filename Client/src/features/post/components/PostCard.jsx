@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getImageUrl } from "../utils/imageHelper";
+import { getImageUrl } from "../../../utils/helpers/imageHelper";
 
 export function PostCard({ post, index }) {
   return (

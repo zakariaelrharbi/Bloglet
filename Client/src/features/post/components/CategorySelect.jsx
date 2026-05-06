@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { getCategories } from "../api/categoryApi";
+import { getCategories } from "../api/categoryApi.js";
 
 export function CategorySelect({ value, onChange, className = "" }) {
   const [categories, setCategories] = useState([]);
@@ -10,21 +10,17 @@ export function CategorySelect({ value, onChange, className = "" }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { ok, data } = await getCategories();
-        if (ok) {
-          // Transform API data to match component format
-          const categoryOptions = data.categories.map((cat) => ({
-            value: cat.slug,
-            label: cat.name,
-          }));
-          // Add default option
-          setCategories([
-            { value: "uncategorized", label: "Select category" },
-            ...categoryOptions,
-          ]);
-        } else {
-          setError("Failed to load categories");
-        }
+        const data = await getCategories();
+        // Transform API data to match component format
+        const categoryOptions = data.map((cat) => ({
+          value: cat.slug,
+          label: cat.name,
+        }));
+        // Add default option
+        setCategories([
+          { value: "uncategorized", label: "Select category" },
+          ...categoryOptions,
+        ]);
       } catch (err) {
         setError("Error loading categories");
         console.error("Error fetching categories:", err);

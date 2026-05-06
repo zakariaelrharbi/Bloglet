@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { use } = require("../routes/postRoutes");
 
 const postSchema = new mongoose.Schema(
   {
@@ -10,7 +9,6 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
     },
     category: {
       type: String,

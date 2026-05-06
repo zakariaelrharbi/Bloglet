@@ -1,13 +1,12 @@
 import { FileInput } from "flowbite-react";
 import React, { useState, useEffect, useRef } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { CategorySelect } from "../components/CategorySelect";
+import { CategorySelect } from "../features/post/components/CategorySelect";
+import { updatePost, getPosts } from "../features/post/api/postApi";
 
 const UpdatePost = ({ postId: propPostId }) => {
   const [file, setFile] = useState(null);
@@ -24,20 +23,14 @@ const UpdatePost = ({ postId: propPostId }) => {
   const navigate = useNavigate();
   const { postId: routePostId } = useParams();
   const postId = propPostId || routePostId;
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.auth);
   const quillRef = useRef(null);
 
   // Fetch post data when the component mounts
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/post/getAllPosts?postId=${postId}`,
-        );
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.message || "Failed to fetch post");
-        }
+        const data = await getPosts({ postId });
         // Make sure formData gets the post data
         setFormData({
           title: data.posts[0].title || "",
@@ -125,20 +118,7 @@ const UpdatePost = ({ postId: propPostId }) => {
         formDataToSend.append("image", file);
       }
 
-      const res = await fetch(
-        `http://localhost:5000/api/post/update/${formData._id}`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: formDataToSend,
-          // Don't set Content-Type header - browser will set it automatically for FormData
-        },
-      );
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
-        return;
-      }
+      const data = await updatePost(formData._id, formDataToSend);
       toast.success("Post updated successfully");
       setTimeout(() => {
         navigate("/dashboard?tab=posts");
@@ -160,7 +140,9 @@ const UpdatePost = ({ postId: propPostId }) => {
             required
             id="title"
             value={formData.title || ""}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
             className="flex-1 px-4 py-2 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
           />
 
@@ -203,14 +185,16 @@ const UpdatePost = ({ postId: propPostId }) => {
           />
         )}
 
-        {/* Content (ReactQuill) */}
-        <ReactQuill
-          theme="snow"
+        {/* Content */}
+        <textarea
+          name="content"
           placeholder="Write something..."
           required
-          className="h-72 mb-12 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
-          onChange={(content) => setFormData({ ...formData, content: content })}
           value={formData.content || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, content: e.target.value })
+          }
+          className="w-full min-h-[18rem] mb-12 px-4 py-3 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-brand-navy outline-none"
         />
 
         {/* Submit Button */}
